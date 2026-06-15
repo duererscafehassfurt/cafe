@@ -73,6 +73,7 @@
     .footer-col a:hover{color:var(--gold-l);}
     .footer-col p{font-size:0.85rem;margin-bottom:0.5rem;color:inherit;}
     .footer-bottom{border-top:1px solid rgba(196,154,42,0.12);padding:1.5rem 5%;display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;font-size:0.75rem;flex-wrap:wrap;gap:10px;}
+    
     @media(max-width:900px){.footer-main{grid-template-columns:1fr 1fr;}}
     @media(max-width:600px){
         .header-left nav{display:none;}
@@ -141,26 +142,92 @@
 
 <script>
 // ══════════════════════════════════════════════════════════════
-//  WEB APP URL
+//  WEB APP URL & SETTINGS URL
 // ══════════════════════════════════════════════════════════════
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOq403kNYnhu0bsyS84B0H_-h_LopKyeJSXoXOs1WSqNCFjIpxVRa9zpV6gNKSUH8/exec";
+const GOOGLE_SHEET_SETTINGS_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=931186417';
+
+let maxBistroGuests = 20; // Standardwert, wird überschrieben
 
 // ══════════════════════════════════════════════════════════════
-//  SHEET DATA
+//  HELPER FUNCTIONS
 // ══════════════════════════════════════════════════════════════
-const sheetData = {
-    cafe_name: "DÜRERs",
-    tagline: "Frisch gekocht, mit Herz serviert",
-    hero_subtitle: "Ein Projekt der Albrecht-Dürer-Schule Haßfurt. Entdecken Sie unser jeden Donnerstag frisch zubereitetes, biozertifiziertes und vegetarisches Menü.",
-    telefon: "09521 / 123 456",
-    fax: "09521 / 123 457",
-    email: "duerers.adm.hassfurt@gmail.com",
-    email_link: "mailto:duerers.adm.hassfurt@gmail.com",
-    sitzplaetze: "20",
-    schule: "Albrecht-Dürer-Mittelschule Haßfurt",
-    facebook_url: "https://facebook.com",
-    instagram_url: "https://instagram.com"
-};
+function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let inQuotes = false;
+    let val = '';
+    for (let i = 0; i < text.length; i++) {
+        let c = text[i];
+        let nc = text[i+1];
+        if (c === '"' && inQuotes && nc === '"') { val += '"'; i++; }
+        else if (c === '"') { inQuotes = !inQuotes; }
+        else if (c === ',' && !inQuotes) { row.push(val); val = ''; }
+        else if (c === '\n' && !inQuotes) { row.push(val); rows.push(row); row = []; val = ''; }
+        else if (c === '\r' && !inQuotes) { /* ignore */ }
+        else { val += c; }
+    }
+    row.push(val);
+    rows.push(row);
+    return rows;
+}
+
+function getDirectImageUrl(url) {
+    if (!url) return "placeholder.png";
+    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+    }
+    return url;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  LOAD HEADER & FOOTER DATA
+// ══════════════════════════════════════════════════════════════
+async function loadSettingsFromCSV() {
+    try {
+        const response = await fetch(GOOGLE_SHEET_SETTINGS_URL);
+        const csvText = await response.text();
+        const parsedData = parseCSV(csvText);
+        
+        parsedData.forEach(row => {
+            if (row.length >= 2 && row[0]) {
+                const key = row[0].trim().toLowerCase();
+                const value = row[1] ? row[1].trim() : "";
+
+                if (key === 'sitzplaetze') {
+                    const spElem = document.querySelector('[data-dynamic-text="sitzplaetze"]');
+                    if (spElem) spElem.textContent = value;
+                    maxBistroGuests = parseInt(value) || 20;
+                    updateGuestLimits(); // Aktualisiert das Input-Feld
+                } else if (key === 'telefon') {
+                    const telSpan = document.getElementById('footer-telefon');
+                    if(telSpan) telSpan.innerText = value;
+                } else if (key === 'fax') {
+                    const faxSpan = document.getElementById('footer-fax');
+                    if(faxSpan) faxSpan.innerText = value;
+                } else if (key === 'email') {
+                    const emailSpan = document.getElementById('footer-email');
+                    if(emailSpan) {
+                        emailSpan.innerText = value;
+                        emailSpan.href = 'mailto:' + value;
+                    }
+                } else if (key === 'logo_url') {
+                    const logoEl = document.getElementById('header-logo');
+                    if (logoEl && value) logoEl.src = getDirectImageUrl(value);
+                } else if (key === 'facebook_url') {
+                    const fbEl = document.getElementById('header-fb');
+                    if (fbEl && value) fbEl.href = value;
+                } else if (key === 'instagram_url') {
+                    const igEl = document.getElementById('header-ig');
+                    if (igEl && value) igEl.href = value;
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Fehler beim Laden der Einstellungen:", error);
+    }
+}
 
 // ══════════════════════════════════════════════════════════════
 //  FORM SUBMISSION → Google Apps Script
@@ -192,13 +259,14 @@ async function submitForm(e) {
         : 'Feier im Bistro';
 
     const payload = {
-        action    : 'eventRequest',
-        eventType : eventTypeLabel,
-        name      : name,
-        email     : email,
-        date      : document.getElementById('date').value || '–',
-        guests    : document.getElementById('guests').value || '–',
-        message   : document.getElementById('message').value.trim() || '–'
+        action        : 'eventRequest',
+        targetSheetGid: '875868487', // GID des Tabs, wo die Anfrage gespeichert werden soll
+        eventType     : eventTypeLabel,
+        name          : name,
+        email         : email,
+        date          : document.getElementById('date').value || '–',
+        guests        : document.getElementById('guests').value || '–',
+        message       : document.getElementById('message').value.trim() || '–'
     };
 
     try {
@@ -235,36 +303,49 @@ function showStatus(type, message) {
 }
 
 // ══════════════════════════════════════════════════════════════
-//  INIT & NEW DYNAMIC LOGIC
+//  DYNAMIC GUEST LIMITS
+// ══════════════════════════════════════════════════════════════
+const eventTypeSelect = document.getElementById('eventType');
+const guestsInput = document.getElementById('guests');
+
+function updateGuestLimits() {
+    if (eventTypeSelect.value === 'bistro') {
+        guestsInput.max = maxBistroGuests;
+        guestsInput.placeholder = `z.B. 15 (max. ${maxBistroGuests})`;
+        if (parseInt(guestsInput.value) > maxBistroGuests) guestsInput.value = maxBistroGuests;
+    } else if (eventTypeSelect.value === 'catering') {
+        guestsInput.max = 60;
+        guestsInput.placeholder = "z.B. 40 (max. 60)";
+        if (parseInt(guestsInput.value) > 60) guestsInput.value = 60;
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  INIT
 // ══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-    // Dynamic data
-    document.querySelectorAll('[data-dynamic-text]').forEach(el => {
-        const key = el.getAttribute('data-dynamic-text');
-        if (sheetData[key]) el.textContent = sheetData[key];
-    });
-    document.querySelectorAll('[data-dynamic-href]').forEach(el => {
-        const key = el.getAttribute('data-dynamic-href');
-        if (sheetData[key]) el.setAttribute('href', sheetData[key]);
-    });
+    // 1. Daten laden (Header/Footer & Sitzplätze)
+    loadSettingsFromCSV();
 
-    // Mobile nav
+    // 2. Mobile Nav
     const hambBtn = document.getElementById('hamburger');
     const drawer  = document.getElementById('mobileNav');
-    hambBtn.addEventListener('click', () => {
-        hambBtn.classList.toggle('open');
-        drawer.classList.toggle('open');
-        document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
-    });
-    drawer.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-            hambBtn.classList.remove('open');
-            drawer.classList.remove('open');
-            document.body.style.overflow = '';
+    if (hambBtn && drawer) {
+        hambBtn.addEventListener('click', () => {
+            hambBtn.classList.toggle('open');
+            drawer.classList.toggle('open');
+            document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
         });
-    });
+        drawer.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                hambBtn.classList.remove('open');
+                drawer.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    }
 
-    // --- Dynamic Dates ---
+    // 3. Date Limits
     const dateInput = document.getElementById('date');
     const today = new Date();
     
@@ -280,53 +361,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextDd = String(nextYearDate.getDate()).padStart(2, '0');
     dateInput.max = `${nextYyyy}-${nextMm}-${nextDd}`; 
 
-    // --- NEW LOGIC: Block manually typing dates outside the allowed range ---
     dateInput.addEventListener('change', function() {
-        if (!this.value) return; // Ignore if they completely empty the field
+        if (!this.value) return; 
         
         const selectedDate = new Date(this.value);
         const minDate = new Date(this.min);
         const maxDate = new Date(this.max);
 
-        // Reset the time component to 00:00:00 to purely compare the dates
         selectedDate.setHours(0, 0, 0, 0);
         minDate.setHours(0, 0, 0, 0);
         maxDate.setHours(0, 0, 0, 0);
 
         if (selectedDate < minDate) {
-            this.value = this.min; // Snaps back to today if they type a past year
+            this.value = this.min; 
         } else if (selectedDate > maxDate) {
-            this.value = this.max; // Snaps back to next year if they type a future year
+            this.value = this.max; 
         }
     });
 
-    // --- Dynamic Guest Amounts ---
-    const eventTypeSelect = document.getElementById('eventType');
-    const guestsInput = document.getElementById('guests');
-
-    function updateGuestLimits() {
-        if (eventTypeSelect.value === 'bistro') {
-            guestsInput.max = 20;
-            guestsInput.placeholder = "z.B. 15 (max. 20)";
-            if (parseInt(guestsInput.value) > 20) guestsInput.value = 20;
-        } else if (eventTypeSelect.value === 'catering') {
-            guestsInput.max = 60;
-            guestsInput.placeholder = "z.B. 40 (max. 60)";
-            if (parseInt(guestsInput.value) > 60) guestsInput.value = 60;
-        }
-    }
-    
+    // 4. Guest Input block
     eventTypeSelect.addEventListener('change', updateGuestLimits);
 
-    // Block typing numbers over the limit instantly
     guestsInput.addEventListener('input', function() {
         const currentMax = parseInt(this.max) || 60; 
         if (this.value !== "") {
             const val = parseInt(this.value);
             if (val > currentMax) {
-                this.value = currentMax; // Snaps back to max limit if they type too much
+                this.value = currentMax;
             } else if (val < 1) {
-                this.value = 1; // Prevents negative numbers or 0
+                this.value = 1; 
             }
         }
     });
@@ -337,7 +400,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     updateGuestLimits();
-
     document.getElementById('anfrageForm').addEventListener('submit', submitForm);
 });
 </script>
