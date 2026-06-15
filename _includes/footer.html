@@ -1,0 +1,41 @@
+<style>
+footer { background: rgba(26,18,8,0.99); border-top: 1px solid rgba(196,154,42,0.25); color: rgba(250,246,239,0.4); }
+.footer-main { max-width: 1160px; margin: 0 auto; padding: 3rem 5% 2rem; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 2.5rem; }
+.footer-col h5 { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+.footer-col a { display: block; color: inherit; text-decoration: none; font-size: 0.85rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+.footer-col a:hover { color: var(--gold-l); }
+.footer-col p { font-size: 0.85rem; margin-bottom: 0.5rem; color: inherit; }
+.footer-bottom { border-top: 1px solid rgba(196,154,42,0.12); padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 0.75rem; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 900px) { .footer-main { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .footer-main { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; text-align: center; } }
+</style>
+
+<footer>
+    <div class="footer-main">
+        <div>
+            <a class="logo" href="index.html" style="color:var(--gold)">DÜR<span>ER</span>s</a>
+            <p style="font-size:0.8rem; margin-top:10px; color:inherit;">Ein Projekt der Albrecht-Dürer-Mittelschule Haßfurt. Entdecken Sie unser jeden Donnerstag frisch zubereitetes Menü.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Kontakt</h5>
+            <p>📞 Tel: <span id="footer-telefon"></span></p>
+            <p>📠 Fax: <span id="footer-fax"></span></p>
+            <p>✉️ Mail: <a href="" id="footer-email" style="display:inline; padding:0;"></a></p>
+        </div>
+        <div class="footer-col">
+            <h5>Navigation</h5>
+            <a href="index.html">Startseite</a>
+            <a href="menu-reservierung.html">Menü & Reservierung</a>
+            <a href="catering.html">Catering</a>
+        </div>
+        <div class="footer-col">
+            <h5>Rechtliches</h5>
+            <a href="datenschutz.html">Datenschutz</a>
+            <a href="impressum.html">Impressum</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 DÜRERs Café & Bistro · Albrecht-Dürer-Mittelschule</span>
+        <span>Gebaut mit ❤ von Schülerinnen & Schülern</span>
+    </div>
+</footer>
