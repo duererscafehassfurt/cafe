@@ -1,0 +1,58 @@
+<style>
+header { position: sticky; top: 0; z-index: 200; background: var(--ink); height: 66px; display: flex; align-items: center; padding: 0 5%; border-bottom: 2px solid var(--gold); justify-content: space-between; }
+.header-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+.header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.school-logo { height: 40px; width: 40px; object-fit: contain; background: white; border-radius: 4px; padding: 2px; }
+.logo { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: var(--cream); text-decoration: none; flex-shrink: 0; }
+nav { display: flex; align-items: center; margin-left: 10px; overflow-x: auto; scrollbar-width: none; }
+nav::-webkit-scrollbar { display: none; }
+nav a { display: flex; align-items: center; height: 66px; padding: 0 14px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(250,246,239,0.65); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+nav a:hover, nav a.active { color: var(--gold-l); border-bottom-color: var(--gold); }
+.header-right { display: flex; align-items: center; gap: 15px; }
+.social-icon { color: rgba(250,246,239,0.65); display: flex; align-items: center; transition: color 0.2s, transform 0.2s; }
+.social-icon:hover { color: var(--gold-l); transform: translateY(-2px); }
+.hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 300; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-nav { display: none; position: fixed; top: 66px; left: 0; right: 0; bottom: 0; background: var(--ink); z-index: 199; flex-direction: column; padding: 1.5rem 6%; overflow-y: auto; }
+.mobile-nav.open { display: flex; }
+.mobile-nav a { font-size: 1.2rem; font-weight: 500; color: rgba(250,246,239,0.75); text-decoration: none; padding: 1rem 0; border-bottom: 1px solid rgba(196,154,42,0.15); transition: color 0.2s; }
+.mobile-nav a:last-child { border-bottom: none; }
+.mobile-nav a:hover, .mobile-nav a.active { color: var(--gold-l); }
+@media (max-width: 600px) { .hamburger { display: flex; } .header-left nav { display: none; } }
+</style>
+
+<header>
+    <div class="header-left">
+        <a href="index.html" class="header-brand">
+            <img src="logo.png" alt="Logo Mittelschule" id="header-logo" class="school-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5OTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxPR088L3RleHQ+PC9zdmc+'">
+            <span class="logo">DÜR<span>ER</span>s</span>
+        </a>
+        <nav>
+            <a href="index.html">Startseite</a>
+            <a href="menu-reservierung.html">Menü & Reservierung</a>
+            <a href="catering.html">Catering</a>
+        </nav>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="header-right">
+        <a href="https://ms-hassfurt.de/startseite.html" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Schul-Website" title="Zur Website der Mittelschule Haßfurt">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72l5 2.73 5-2.73v3.72z"/></svg>
+        </a>
+        <a href="#" id="header-fb" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+        </a>
+        <a href="#" id="header-ig" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+    </div>
+</header>
+<nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">Startseite</a>
+    <a href="menu-reservierung.html">Menü & Reservierung</a>
+    <a href="catering.html">Catering</a>
+</nav>
