@@ -1,0 +1,258 @@
+---
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catering & Veranstaltungen · DÜRERs Café & Bistro</title>
+    <meta name="description" content="Planen Sie Ihre Veranstaltung mit dem DÜRERs Schülercafé. Catering für bis zu 60 Personen und Feiern im Bistro der Albrecht-Dürer-Mittelschule.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --ink: #1a1208; --ink-80: rgba(26,18,8,0.8); --ink-60: rgba(26,18,8,0.6); --ink-40: rgba(26,18,8,0.4); --ink-15: rgba(26,18,8,0.15);
+        --cream: #faf6ef; --parch: #f0e8d8; --parch-d: #e4d8c4;
+        --rust: #8b3a2a; --rust-l: #b84e38; --gold: #c49a2a; --gold-l: #e8c060; --sage: #4a5c46;
+        --shadow-sm: 0 2px 8px rgba(26,18,8,0.10); --shadow-md: 0 4px 24px rgba(26,18,8,0.14);
+        --r-sm: 6px; --r: 12px; font-size: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+    body::before {
+        content: ''; position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    .page-wrap { max-width: 1160px; margin: 3rem auto 5rem; padding: 0 5%; position: relative; z-index: 1; }
+    
+    .section-eyebrow { font-family: 'DM Mono', monospace; font-size: clamp(1.2rem, 2.5vw, 1.8rem); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 15px; }
+    .section-eyebrow::after { content: ''; display: inline-block; height: 2px; width: 60px; background: var(--gold); opacity: 0.5; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--ink); line-height: 1.1; margin-bottom: 1.5rem; }
+    .section-title em { color: var(--rust); font-style: italic; }
+
+    .catering-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    
+    .service-card { background: white; border-radius: var(--r); padding: 2.5rem 2rem; box-shadow: var(--shadow-sm); border-bottom: 4px solid var(--gold); transition: box-shadow 0.25s, transform 0.25s; display: flex; flex-direction: column; }
+    .service-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .service-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .service-card p { font-size: 0.95rem; color: var(--ink-60); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+    
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 26px; border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; text-align: center; }
+    .btn-primary { background: var(--rust); color: white; box-shadow: 0 4px 14px rgba(139,58,42,0.3); }
+    .btn-primary:hover { background: var(--rust-l); transform: translateY(-2px); color: white;}
+    .btn-secondary { background: var(--ink); color: var(--cream); }
+    .btn-secondary:hover { background: rgba(26,18,8,0.8); transform: translateY(-2px); color: var(--cream); }
+    .btn-outline { background: transparent; border: 2px solid var(--rust); color: var(--rust); }
+    .btn-outline:hover { background: var(--rust); color: white; transform: translateY(-2px); }
+
+    .gallery-section { margin-top: 5rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 2rem; }
+    .gallery-img { width: 100%; height: 260px; object-fit: cover; border-radius: var(--r-sm); box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s; background-color: var(--parch-d); }
+    .gallery-img:hover { transform: scale(1.02); z-index: 2; position: relative; box-shadow: var(--shadow-md); }
+    .gallery-img.large { grid-column: span 2; }
+
+    .contact-banner { margin-top: 5rem; background: var(--parch); border-radius: var(--r); padding: 3rem 2rem; text-align: center; border-left: 4px solid var(--rust); }
+    .contact-banner h4 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--ink); margin-bottom: 1rem; }
+    .contact-banner p { font-size: 1rem; color: var(--ink-80); max-width: 600px; margin: 0 auto 2rem; }
+    .contact-actions { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+        .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        .gallery-img.large { grid-column: span 2; }
+    }
+    @media (max-width: 600px) {
+        .gallery-grid { grid-template-columns: 1fr; }
+        .gallery-img.large { grid-column: span 1; }
+    }
+    </style>
+</head>
+<body>
+
+{% include header.html %}
+
+<main class="page-wrap">
+    <div class="section-eyebrow">Ihre Feier mit uns</div>
+    <h1 class="section-title">Catering <em>& Veranstaltungen</em></h1>
+    <p style="font-size: 1.1rem; color: var(--ink-80); max-width: 750px;">
+        Planen Sie ein privates Fest, eine schulische Feier oder ein Firmen-Event? 
+        Wir erstellen Ihnen individuelle, rein vegetarische Menüs und Fingerfood-Kreationen – 
+        natürlich mit frischen Bio-Zutaten, ganz im Sinne unserer DÜRERs Philosophie.
+    </p>
+
+    <div class="catering-grid">
+        <div class="service-card">
+            <span class="service-icon">🥗</span>
+            <h3>Catering außer Haus</h3>
+            <p>Wir bereiten liebevoll angerichtete Speisen für Ihre Veranstaltung zu. Von handgemachtem Fingerfood bis hin zu vollständigen Buffets – alles vegetarisch, regional und frisch gekocht durch unser engagiertes Schüler-Team.</p>
+            <a href="anfrage.html?type=catering" class="btn btn-outline">Anfrage: Für Gruppen bis 60 Personen</a>
+        </div>
+
+        <div class="service-card">
+            <span class="service-icon">🥂</span>
+            <h3>Feiern im Bistro</h3>
+            <p>Nutzen Sie unser liebevoll gestaltetes Café als Location für Ihre geschlossene Gesellschaft. Wir kümmern uns direkt vor Ort um die Bewirtung, den Service und das kulinarische Erlebnis Ihrer Gäste.</p>
+            <a href="anfrage.html?type=bistro" class="btn btn-outline">Anfrage: Sitzplätze für max. <span id="sitzplaetze-catering" style="margin: 0 4px;"></span> Personen</a>
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <h2 class="section-title" style="text-align: center;">Impressionen</h2>
+        <div class="gallery-grid" id="catering-gallery">
+            <img src="IMG_1204_2.jpg" alt="DÜRERs Catering Bild 1" class="gallery-img large" loading="lazy">
+            <img src="IMG_1205.jpg" alt="DÜRERs Catering Bild 2" class="gallery-img" loading="lazy">
+            <img src="IMG_1208.jpg" alt="DÜRERs Catering Bild 3" class="gallery-img" loading="lazy">
+            <img src="IMG_3937.jpg" alt="DÜRERs Catering Bild 4" class="gallery-img" loading="lazy">
+            <img src="IMG_6990.jpg" alt="DÜRERs Catering Bild 5" class="gallery-img" loading="lazy">
+        </div>
+    </div>
+
+    <div class="contact-banner">
+        <h4>Haben wir Ihr Interesse geweckt?</h4>
+        <p>Da es sich um ein Schulprojekt handelt, bitten wir um frühzeitige Planung. Sitzplätze im Bistro sowie individuelle Catering-Anfragen können <strong>ausschließlich telefonisch oder per E-Mail</strong> besprochen und reserviert werden.</p>
+        <div class="contact-actions">
+            <a href="#" class="btn btn-primary" id="contact-telefon-btn"></a>
+            <a href="#" class="btn btn-secondary" id="contact-email-btn"></a>
+        </div>
+    </div>
+</main>
+
+{% include footer.html %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileNav');
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        drawer.classList.toggle('open');
+        document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    });
+    drawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            btn.classList.remove('open');
+            drawer.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    });
+
+    const sheetId = '1NBf0GJcJEDiGx7XRvt-g6gqqr-ok9gA3i_efv57Z2i8';
+    const settingsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
+    const cateringGalleryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Bilder Catering&headers=1`;
+
+    function getDirectImageUrl(url) {
+        if (!url) return '';
+        const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+        return url;
+    }
+
+    async function fetchSheetData(url) {
+        const res = await fetch(url);
+        const text = await res.text();
+        const firstBracket = text.indexOf('{');
+        const lastBracket = text.lastIndexOf('}');
+        if (firstBracket === -1 || lastBracket === -1) throw new Error("Invalid response");
+        let jsonString = text.substring(firstBracket, lastBracket + 1);
+        jsonString = jsonString.replace(/new Date\([^)]+\)/g, 'null');
+        return JSON.parse(jsonString).table;
+    }
+
+    const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val) el.innerText = val;
+    };
+
+    async function loadDynamicData() {
+        try {
+            const [settingsTable, cateringTable] = await Promise.all([
+                fetchSheetData(settingsUrl).catch(() => null),
+                fetchSheetData(cateringGalleryUrl).catch(() => null)
+            ]);
+
+            if (settingsTable) {
+                const settings = {};
+                settingsTable.rows.forEach(row => {
+                    if (row && row.c && row.c[0] && row.c[0].v !== null) {
+                        const key = String(row.c[0].v).trim();
+                        let value = '';
+                        if (row.c[1]) {
+                            if (row.c[1].v !== null && row.c[1].v !== undefined) value = String(row.c[1].v);
+                            else if (row.c[1].f !== null && row.c[1].f !== undefined) value = String(row.c[1].f);
+                        }
+                        settings[key] = value.trim();
+                    }
+                });
+
+                // Logo
+                if (settings['logo_url']) {
+                    const logoEl = document.getElementById('header-logo');
+                    if (logoEl) logoEl.src = getDirectImageUrl(settings['logo_url']);
+                }
+
+                // Social links
+                if (settings['facebook_url']) {
+                    const fbEl = document.getElementById('header-fb');
+                    if (fbEl) fbEl.href = settings['facebook_url'];
+                }
+                if (settings['instagram_url']) {
+                    const igEl = document.getElementById('header-ig');
+                    if (igEl) igEl.href = settings['instagram_url'];
+                }
+
+                // Sitzplätze in card
+                setText('sitzplaetze-catering', settings['sitzplaetze']);
+
+                // Contact banner buttons
+                const telBtn = document.getElementById('contact-telefon-btn');
+                if (telBtn && settings['telefon']) {
+                    telBtn.textContent = '📞 ' + settings['telefon'];
+                    telBtn.href = settings['telefon_link'] || 'tel:' + settings['telefon'].replace(/\s/g, '');
+                }
+                const emailBtn = document.getElementById('contact-email-btn');
+                if (emailBtn && settings['email']) {
+                    emailBtn.textContent = '✉️ ' + settings['email'];
+                    emailBtn.href = 'mailto:' + settings['email'];
+                }
+
+                // Footer — same as index.html
+                setText('footer-telefon', settings['telefon']);
+                setText('footer-fax', settings['fax']);
+                const footerEmail = document.getElementById('footer-email');
+                if (footerEmail && settings['email']) {
+                    footerEmail.innerText = settings['email'];
+                    footerEmail.href = 'mailto:' + settings['email'];
+                }
+            }
+
+            if (cateringTable && cateringTable.rows && cateringTable.rows.length > 0) {
+                const galleryContainer = document.getElementById('catering-gallery');
+                let galleryHTML = '';
+                cateringTable.rows.forEach((row, index) => {
+                    // FIX: Changed from row.c[0] to row.c[1] to target Column B
+                    if (row && row.c && row.c[1] && row.c[1].v) {
+                        const imgUrl = getDirectImageUrl(String(row.c[1].v).trim());
+                        // FIX: Changed alt text source to row.c[2] (Column C) as a fallback
+                        const altText = (row.c[2] && row.c[2].v) ? String(row.c[2].v).trim() : `DÜRERs Catering Bild ${index + 1}`;
+                        const className = index === 0 ? 'gallery-img large' : 'gallery-img';
+                        galleryHTML += `<img src="${imgUrl}" alt="${altText}" class="${className}" loading="lazy">`;
+                    }
+                });
+                if (galleryHTML !== '' && galleryContainer) galleryContainer.innerHTML = galleryHTML;
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden der Google Sheets Daten:", error);
+        }
+    }
+
+    loadDynamicData();
+});
+</script>
+</body>
+</html>
