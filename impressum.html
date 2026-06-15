@@ -1,0 +1,264 @@
+---
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum · DÜRERs Café & Bistro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --ink: #1a1208; --ink-80: rgba(26,18,8,0.8); --ink-60: rgba(26,18,8,0.6); --ink-40: rgba(26,18,8,0.4); --ink-15: rgba(26,18,8,0.15);
+        --cream: #faf6ef; --parch: #f0e8d8; --parch-d: #e4d8c4;
+        --rust: #8b3a2a; --rust-l: #b84e38; --gold: #c49a2a; --gold-l: #e8c060; --sage: #4a5c46;
+        --shadow-sm: 0 2px 8px rgba(26,18,8,0.10); --shadow-md: 0 4px 24px rgba(26,18,8,0.14);
+        --r-sm: 6px; --r: 12px; font-size: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+    body::before {
+        content: ''; position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    header { position: sticky; top: 0; z-index: 200; background: var(--ink); height: 66px; display: flex; align-items: center; padding: 0 5%; border-bottom: 2px solid var(--gold); justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+    .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .school-logo { height: 40px; width: 40px; object-fit: contain; background: white; border-radius: 4px; padding: 2px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: var(--cream); text-decoration: none; flex-shrink: 0; }
+    .logo span { color: var(--gold); }
+    nav { display: flex; align-items: center; margin-left: 10px; overflow-x: auto; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { display: flex; align-items: center; height: 66px; padding: 0 14px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(250,246,239,0.65); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+    nav a:hover, nav a.active { color: var(--gold-l); border-bottom-color: var(--gold); }
+    .header-right { display: flex; align-items: center; gap: 15px; }
+    .social-icon { color: rgba(250,246,239,0.65); display: flex; align-items: center; transition: color 0.2s, transform 0.2s; }
+    .social-icon:hover { color: var(--gold-l); transform: translateY(-2px); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 6px; cursor: pointer; padding: 5px; background: none; border: none; z-index: 300; margin-right: 5px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .mobile-nav { display: none; position: fixed; top: 66px; left: 0; right: 0; bottom: 0; background: var(--ink); z-index: 199; flex-direction: column; align-items: center; padding-top: 4rem; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { position: relative; font-size: 1.05rem; font-weight: 400; color: rgba(250,246,239,0.75); text-decoration: none; padding: 1.5rem 0; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; text-align: center; width: 100%; max-width: 250px; }
+    .mobile-nav a:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 1px; background: rgba(196,154,42,0.25); }
+    .mobile-nav a:hover, .mobile-nav a.active { color: var(--gold); }
+
+    .page-wrap { max-width: 800px; margin: 3rem auto 5rem; padding: 0 5%; position: relative; z-index: 1; }
+    h1, h2 { font-family: 'Playfair Display', serif; color: var(--ink); line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 4vw, 2.5rem); border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 1.5rem; font-weight: 700; }
+    h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 0.5rem; color: var(--rust); font-weight: 600; }
+    p { margin-bottom: 1rem; color: var(--ink-80); font-size: 0.95rem; }
+    a.text-link { color: var(--rust); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    a.text-link:hover { border-bottom-color: var(--rust); }
+    .back-btn { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); text-decoration: none; border: 1.5px solid var(--ink-15); padding: 8px 16px; border-radius: var(--r-sm); transition: background 0.2s, border-color 0.2s; }
+    .back-btn:hover { background: var(--parch); border-color: var(--gold); }
+
+    footer { background: rgba(26,18,8,0.99); border-top: 1px solid rgba(196,154,42,0.25); color: rgba(250,246,239,0.4); margin-top: 4rem; }
+    .footer-main { max-width: 1160px; margin: 0 auto; padding: 3rem 5% 2rem; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 2.5rem; }
+    .footer-col h5 { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+    .footer-col a { display: block; color: inherit; text-decoration: none; font-size: 0.85rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold-l); }
+    .footer-col p { font-size: 0.85rem; margin-bottom: 0.5rem; color: inherit; }
+    .footer-bottom { border-top: 1px solid rgba(196,154,42,0.12); padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 0.75rem; flex-wrap: wrap; gap: 10px; }
+
+    @media (max-width: 900px) { .footer-main { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) {
+        .header-left nav { display: none; }
+        .hamburger { display: flex; order: 3; margin-right: 0; margin-left: 10px; }
+        .footer-main { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    </style>
+</head>
+<body>
+
+{% include header.html %}
+
+<main class="page-wrap">
+    <a href="index.html" class="back-btn">← Zurück zur Startseite</a>
+
+    <h1>Impressum</h1>
+    <p>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG):</p>
+
+    <h2>Diensteanbieter</h2>
+    <p>
+        <strong>Albrecht-Dürer-Mittelschule Haßfurt</strong><br>
+        <span id="data-dienste-str">[Straße und Hausnummer der Schule laden...]</span><br>
+        <span id="data-dienste-plz">[PLZ und Ort laden...]</span>
+    </p>
+
+    <h2>Vertreten durch:</h2>
+    <p>
+        <span id="data-vertr-schulleitung">[Titel und Name der Schulleitung laden...]</span><br>
+        sowie die Projektleitung: <span id="data-vertr-lehrkraft">[Name der verantwortlichen Lehrkraft laden...]</span>
+    </p>
+
+    <h2>Kontakt</h2>
+    <p>
+        Telefon: <span id="data-kontakt-tel">[Telefonnummer laden...]</span><br>
+        Telefax: <span id="data-kontakt-fax">[Faxnummer laden...]</span><br>
+        E-Mail: <a href="mailto:" class="text-link" id="data-kontakt-email-link"><span id="data-kontakt-email">[Offizielle E-Mail-Adresse laden...]</span></a>
+    </p>
+
+    <h2>Schulträger (Aufsichtsbehörde)</h2>
+    <p>
+        Die Albrecht-Dürer-Mittelschule ist eine Körperschaft des öffentlichen Rechts.<br>
+        Zuständiger Schulträger ist:<br>
+        <span id="data-traeger-name">[Name des Schulträgers laden...]</span><br>
+        <span id="data-traeger-adresse">[Adresse des Schulträgers laden...]</span>
+    </p>
+
+    <h2>Verantwortlich für den redaktionellen Inhalt</h2>
+    <p>
+        <span id="data-redaktion-name">[Name der Person laden...]</span><br>
+        Albrecht-Dürer-Mittelschule Haßfurt<br>
+        <span id="data-redaktion-str">[Straße und Hausnummer laden...]</span><br>
+        <span id="data-redaktion-plz">[PLZ und Ort laden...]</span>
+    </p>
+
+    <h2>Verbraucher&shy;streit&shy;beilegung / Universal&shy;schlichtungs&shy;stelle</h2>
+    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h2>Haftungsausschluss (Disclaimer)</h2>
+    <p><strong>Haftung für Inhalte:</strong> Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Wir sind jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Bei Bekanntwerden von Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+    <p><strong>Urheberrecht:</strong> Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>
+</main>
+
+{% include footer.html %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Hamburger menu
+    const btn = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileNav');
+    if (btn && drawer) {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('open');
+            drawer.classList.toggle('open');
+            document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+        });
+        drawer.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                btn.classList.remove('open');
+                drawer.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+
+    // 2. Shared helpers - HIER IST DIE NEUE GOOGLE SHEET ID
+    const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ';
+
+    async function fetchSheetData(url) {
+        const res = await fetch(url);
+        const text = await res.text();
+        const firstBracket = text.indexOf('{');
+        const lastBracket = text.lastIndexOf('}');
+        if (firstBracket === -1 || lastBracket === -1) throw new Error("Invalid response");
+        let jsonString = text.substring(firstBracket, lastBracket + 1);
+        jsonString = jsonString.replace(/new Date\([^)]+\)/g, 'null');
+        return JSON.parse(jsonString).table;
+    }
+
+    function getValueByKey(rows, key) {
+        for (const row of rows) {
+            if (row && row.c && row.c[0] && row.c[0].v !== null) {
+                if (String(row.c[0].v).trim() === key) {
+                    return row.c[1] && row.c[1].v != null ? String(row.c[1].v).trim() : '';
+                }
+            }
+        }
+        return '';
+    }
+
+    const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val) el.innerText = val;
+    };
+
+    // 3. Load Impressum tab content
+    const urlImpressum = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=1817133936`;
+    fetchSheetData(urlImpressum)
+        .then(table => {
+            const rows = table.rows;
+
+            // Updated strictly to match column A in the Google Sheet
+            setText('data-dienste-str',        getValueByKey(rows, "Straße und Hausnummer"));
+            setText('data-dienste-plz',        getValueByKey(rows, "PLZ und Ort"));
+            
+            setText('data-vertr-schulleitung', getValueByKey(rows, "Titel & Name Schulleitung"));
+            setText('data-vertr-lehrkraft',    getValueByKey(rows, "Vertreten durch"));
+            
+            setText('data-kontakt-tel',        getValueByKey(rows, "Telefonnummer"));
+            setText('data-kontakt-fax',        getValueByKey(rows, "Faxnummer"));
+            
+            setText('data-traeger-name',       getValueByKey(rows, "Name des Schulträgers"));
+            setText('data-traeger-adresse',    getValueByKey(rows, "Adresse Schulträger"));
+            
+            setText('data-redaktion-name',     getValueByKey(rows, "Name der Person"));
+            setText('data-redaktion-str',      getValueByKey(rows, "Straße und Hausnummer")); 
+            setText('data-redaktion-plz',      getValueByKey(rows, "PLZ und Ort"));            
+
+            const email = getValueByKey(rows, "E-Mail-Adresse");
+            if (email) {
+                setText('data-kontakt-email', email);
+                document.getElementById('data-kontakt-email-link').href = 'mailto:' + email;
+            }
+        })
+        .catch(err => console.error("Fehler Impressum-Tab:", err));
+
+    // 4. Load Einstellungen tab — footer + header
+    const urlEinstellungen = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
+    fetchSheetData(urlEinstellungen)
+        .then(table => {
+            const rows = table.rows;
+            const settings = {};
+            rows.forEach(row => {
+                if (row && row.c && row.c[0] && row.c[0].v !== null) {
+                    const key = String(row.c[0].v).trim();
+                    let value = '';
+                    if (row.c[1]) {
+                        if (row.c[1].v !== null && row.c[1].v !== undefined) value = String(row.c[1].v);
+                        else if (row.c[1].f !== null && row.c[1].f !== undefined) value = String(row.c[1].f);
+                    }
+                    settings[key] = value.trim();
+                }
+            });
+
+            // Logo
+            if (settings['logo_url']) {
+                const logoEl = document.getElementById('header-logo');
+                if (logoEl) {
+                    const match = settings['logo_url'].match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                    logoEl.src = match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000` : settings['logo_url'];
+                }
+            }
+
+            // Social links
+            if (settings['facebook_url'])  { const el = document.getElementById('header-fb'); if (el) el.href = settings['facebook_url']; }
+            if (settings['instagram_url']) { const el = document.getElementById('header-ig'); if (el) el.href = settings['instagram_url']; }
+
+            // Footer
+            setText('footer-telefon', settings['telefon']);
+            setText('footer-fax',     settings['fax']);
+            const footerEmail = document.getElementById('footer-email');
+            if (footerEmail && settings['email']) {
+                footerEmail.innerText = settings['email'];
+                footerEmail.href = 'mailto:' + settings['email'];
+            }
+        })
+        .catch(err => console.error("Fehler Einstellungen-Tab:", err));
+});
+</script>
+</body>
+</html>
