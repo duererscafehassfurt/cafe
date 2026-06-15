@@ -1,0 +1,974 @@
+---
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DÜRERs · Schülercafé & Bistro Haßfurt</title>
+    <meta name="description" content="DÜRERs Café & Bistro – frisch gekochte vegetarische und biozertifizierte Mittagsgerichte von Schülerinnen und Schülern der Albrecht-Dürer-Schule Haßfurt.">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/de.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --ink: #1a1208; --ink-60: rgba(26,18,8,0.6); --ink-40: rgba(26,18,8,0.4); --ink-15: rgba(26,18,8,0.15);
+        --cream: #faf6ef; --parch: #f0e8d8; --parch-d: #e4d8c4;
+        --rust: #8b3a2a; --rust-l: #b84e38; --gold: #c49a2a; --gold-l: #e8c060; --sage: #4a5c46;
+        --ok: #3a9e6a; --err: #c0392b;
+        --shadow-sm: 0 2px 8px rgba(26,18,8,0.10); --shadow-md: 0 4px 24px rgba(26,18,8,0.14);
+        --r-sm: 6px; --r: 12px; font-size: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+    
+    body::before {
+        content: ''; position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    .page-wrap { max-width: 1250px; margin: 2rem auto 4rem; padding: 0 5%; display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; position: relative; z-index: 1; }
+    .section-eyebrow { font-family: 'DM Mono', monospace; font-size: clamp(1.2rem, 2.5vw, 1.8rem); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 15px; }
+    .section-eyebrow::after { content: ''; display: inline-block; height: 2px; width: 60px; background: var(--gold); opacity: 0.5; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 1rem; }
+    .section-title em { color: var(--rust); font-style: italic; }
+    
+    .category-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ink); margin: 2rem 0 1rem; border-bottom: 2px solid var(--parch-d); padding-bottom: 0.5rem; }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .menu-card { background: white; border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; position: relative; transition: transform 0.2s, box-shadow 0.2s; border-bottom: 3px solid transparent; cursor: pointer; }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-bottom-color: var(--gold); }
+    .menu-img { width: 100%; height: 180px; object-fit: cover; background-color: var(--parch-d); }
+    .menu-body { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
+    .menu-meta { display: flex; justify-content: space-between; margin-bottom: 0.5rem; align-items: flex-start; }
+    .menu-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; line-height: 1.2; color: var(--ink); }
+    .menu-price { font-family: 'DM Mono', monospace; font-size: 1.05rem; font-weight: 500; color: var(--rust); margin-left: 10px; }
+    .menu-desc { font-size: 0.85rem; color: var(--ink-60); margin-bottom: 1rem; flex: 1; line-height: 1.4; }
+    
+    .menu-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 12px; background: var(--parch); color: var(--sage); border: 1px solid var(--parch-d); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+    .tag.bio { background: #3a9e6a; color: white; border-color: #2d7a52; }
+    .tag.highlight { background: var(--rust); color: white; border-color: var(--rust-l); }
+
+    .sidebar { position: sticky; top: 90px; }
+    .res-panel { background: white; border-radius: var(--r); padding: 1.5rem; box-shadow: var(--shadow-md); border-top: 4px solid var(--rust); }
+    .res-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--ink); }
+    .res-subtitle { font-size: 0.8rem; color: var(--ink-60); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--parch); }
+    
+    .res-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.2rem; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+    .res-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; padding-bottom: 10px; border-bottom: 1px solid var(--cream); }
+    .res-item-info { flex: 1; line-height: 1.3; }
+    .res-item-price { color: var(--rust); font-family: 'DM Mono', monospace; font-size: 0.9rem; margin-top: 4px; display: block; font-weight: 500; }
+    
+    .res-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.15rem; margin-bottom: 1rem; padding-top: 10px; border-top: 2px solid var(--parch); font-family: 'DM Mono', monospace; color: var(--ink); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .form-row { margin-bottom: 1rem; }
+    .form-row.full { grid-column: 1 / -1; }
+    .inline-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    
+    label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
+    select, input[type="text"], input[type="number"], input[type="email"], input[type="date"] { width: 100%; padding: 10px 13px; border: 1.5px solid var(--ink-15); border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 0.93rem; color: var(--ink); background: var(--cream); transition: border-color: 0.2s, box-shadow: 0.2s; }
+    select:focus, input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(196,154,42,0.15); }
+    
+    .flatpickr-calendar { font-family: 'DM Sans', sans-serif !important; box-shadow: var(--shadow-md) !important; border: none !important; border-radius: var(--r-sm) !important; }
+    .flatpickr-day.selected { background: var(--gold) !important; border-color: var(--gold) !important; }
+    .flatpickr-day.selected:hover { background: var(--gold-l) !important; }
+    
+    .btn { display: block; width: 100%; padding: 12px 18px; border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.18s; text-align: center; }
+    .btn:active { transform: scale(0.98); }
+    .btn-add { background: var(--cream); border: 1.5px solid var(--ink-15); color: var(--ink); margin-top: auto; }
+    .btn-add:hover { background: var(--gold-l); border-color: var(--gold); }
+    .btn-primary { background: var(--rust); color: white; box-shadow: 0 4px 14px rgba(139,58,42,0.3); margin-top: 10px; }
+    .btn-primary:hover:not(:disabled) { background: var(--rust-l); }
+    .btn-primary:disabled { background: rgba(26,18,8,0.2); color: rgba(26,18,8,0.6); box-shadow: none; cursor: not-allowed; }
+
+    .success-box { display: none; text-align: center; }
+    .success-box .check { width: 56px; height: 56px; background: var(--ok); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: white; margin: 0 auto 1rem; }
+    .success-box h4 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--ink); margin-bottom: 5px; }
+    .success-box p { font-size: 0.88rem; color: var(--ink-60); margin-bottom: 1.5rem; }
+    
+    .confirm-box { background: var(--parch); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; text-align: left; font-size: 0.85rem; }
+    .confirm-box table { width: 100%; border-collapse: collapse; }
+    .confirm-box td { padding: 4px 0; }
+    .confirm-box td:first-child { color: rgba(26,18,8,0.5); width: 40%; }
+    .confirm-box td:last-child { font-weight: 500; color: var(--ink); }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: var(--cream); padding: 12px 20px; border-radius: var(--r-sm); font-size: 0.84rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3); border-left: 4px solid var(--gold); transform: translateY(80px); opacity: 0; transition: all 0.35s; z-index: 9999; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .hp-wrapper { position: absolute; left: -5000px; top: -5000px; opacity: 0; z-index: -1; }
+
+    /* Recipe Modal Dark Theme */
+    .recipe-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .recipe-modal.open { opacity: 1; pointer-events: auto; }
+    .recipe-content { background: #1c1c1e; color: #f5f5f5; width: 100%; max-width: 750px; max-height: 92vh; overflow-y: auto; border-radius: 16px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.6); font-family: 'DM Sans', sans-serif; display: flex; flex-direction: column; }
+    .recipe-content::-webkit-scrollbar { width: 8px; }
+    .recipe-content::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+    .recipe-close { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 0.2s; backdrop-filter: blur(4px); }
+    .recipe-close:hover { background: rgba(0,0,0,0.9); }
+    .recipe-header-img { width: 100%; height: 280px; object-fit: cover; border-top-left-radius: 16px; border-top-right-radius: 16px; background: #2c2c2e; }
+    .recipe-body { padding: 2.5rem 2.5rem 4rem; }
+    .recipe-title-display { font-size: 1.7rem; font-weight: 600; color: #ffffff; margin-bottom: 0.5rem; line-height: 1.3; }
+    .recipe-desc-display { font-size: 0.95rem; color: #999999; margin-bottom: 2rem; line-height: 1.5; }
+    
+    .recipe-meta-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; border-bottom: 1px solid #333; padding-bottom: 1.5rem; flex-wrap: wrap; gap: 15px; }
+    .recipe-portions { display: flex; align-items: center; gap: 15px; font-size: 0.95rem; color: #ccc; }
+    .portion-pill { background: #2c2c2e; border-radius: 20px; padding: 6px 16px; display: flex; gap: 15px; align-items: center; border: 1px solid #3a3a3c; }
+    .portion-pill span { color: #888; font-weight: bold; cursor: pointer; user-select: none; }
+    .portion-pill span:hover { color: #fff; }
+    
+    .recipe-actions { display: flex; align-items: center; gap: 18px; }
+
+    .recipe-section-title { font-size: 0.8rem; letter-spacing: 0.1em; color: #777; text-transform: uppercase; margin-bottom: 1.2rem; margin-top: 1rem; }
+    .recipe-ingredients { list-style: none; padding: 0; margin: 0 0 2.5rem 0; }
+    .recipe-ingredients li { padding: 12px 0; border-bottom: 1px solid #2a2a2c; font-size: 0.95rem; color: #eaeaea; display: flex; line-height: 1.4; }
+    
+    .recipe-steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .recipe-step { display: flex; gap: 1.2rem; }
+    .step-number { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #555; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: #aaa; flex-shrink: 0; margin-top: 2px; }
+    .step-text { font-size: 0.95rem; color: #d4d4d4; line-height: 1.6; padding-top: 4px; }
+
+    @media (max-width: 900px) {
+        .page-wrap { grid-template-columns: 1fr; }
+        .sidebar { position: static; margin-top: 2rem; }
+    }
+    
+    @media (max-width: 600px) {
+        .inline-fields { grid-template-columns: 1fr; }
+        .recipe-body { padding: 1.5rem; }
+        .recipe-meta-bar { flex-direction: column; align-items: flex-start; }
+        .recipe-actions { width: 100%; justify-content: flex-end; margin-top: 10px; }
+    }
+    </style>
+</head>
+<body>
+
+{% include header.html %}
+
+<div class="page-wrap">
+    <main>
+        <div class="section-eyebrow">Auswahl</div>
+        <h1 class="section-title">Speisenangebot</h1>
+        <p style="font-size: 0.95rem; color: var(--ink-60); margin-bottom: 2rem;">Wählen Sie Ihr gewünschtes Reservierungsdatum. Das Hauptgericht passt sich automatisch an das entsprechende Wochenangebot an. <strong>Klicken Sie auf ein Gericht, um das Rezept anzusehen.</strong></p>
+        
+        <h2 class="category-title">Tagesgericht</h2>
+        <div class="menu-grid" id="foodGrid">
+            <p style="color:var(--ink-60); font-style:italic;">Speisekarte wird geladen...</p>
+        </div>
+    </main>
+
+    <aside class="sidebar">
+        <div class="res-panel" id="reservationPanel">
+            
+            <div id="reservationForm">
+                <h2 class="res-title">Ihre Reservierung</h2>
+                <p class="res-subtitle">Stellen Sie hier Ihre Portionen zusammen. <br><strong>Achtung:</strong> Reservierung für Donnerstag nur bis Dienstag 12:00 Uhr möglich.</p>
+                
+                <div class="res-items" id="resItems">
+                    <p style="font-size:0.85rem; color:var(--ink-40);" id="emptyResMsg">Noch keine Speisen ausgewählt.</p>
+                </div>
+                
+                <div class="form-row full" style="background: var(--parch); padding: 12px; border-radius: var(--r-sm); margin-top: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--rust);">
+                    <div style="flex: 1; padding-right: 10px;">
+                        <label style="color: var(--ink); font-weight: 700; font-size: 0.85rem; margin-bottom: 2px;">Tagesgericht (Portionen) *</label>
+                        <span id="activeFoodName" style="font-size: 0.75rem; color: var(--ink-60); display: block; line-height: 1.2;">Wird geladen...</span>
+                    </div>
+                    <input type="number" id="foodPortions" min="0" max="25" value="0" style="width: 75px; text-align: center; font-size: 1.1rem; font-weight: bold; border-color: var(--gold);" oninput="handlePortionChange()">
+                </div>
+                
+                <div class="res-total">
+                    <span>Betrag:</span>
+                    <span id="resTotalPrice">0,00 €</span>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row full inline-fields">
+                        <div>
+                            <label>Datum *</label>
+                            <input type="text" id="resDate" required placeholder="Datum wählen...">
+                        </div>
+                        <div>
+                            <label>Zeitfenster *</label>
+                            <select id="resZeitfenster" required onchange="checkAvailability(true)">
+                                <option value="">— Wählen —</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row full" style="margin-top: -8px; margin-bottom: 15px;">
+                        <div id="availability-display" style="font-size: 0.8rem; font-weight: 600; color: var(--ink-60);">Bitte Datum und Zeitfenster wählen.</div>
+                    </div>
+
+                    <div class="form-row full">
+                        <label>Verzehrort *</label>
+                        <select id="resType" required>
+                            <option value="Take-Away (Zum Mitnehmen)">Take-Away</option>
+                            <option value="Vor Ort (Hier essen)">Vor Ort</option>
+                            <option value="Beides">Beides (Take-Away &amp; Vor Ort)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row full inline-fields" id="splitPortionsRow" style="display: none; margin-top: -5px; padding-bottom: 10px; border-bottom: 1px dashed var(--parch-d);">
+                        <div>
+                            <label>Davon Vor Ort *</label>
+                            <input type="number" id="splitVorOrt" min="0" placeholder="0" oninput="handleSplitChange(this)">
+                        </div>
+                        <div>
+                            <label>Davon Take-Away *</label>
+                            <input type="number" id="splitTakeAway" min="0" placeholder="0" oninput="handleSplitChange(this)">
+                        </div>
+                    </div>
+
+                    <div class="form-row full">
+                        <label>Ihr Name *</label>
+                        <input type="text" id="custName" placeholder="Max Mustermann" required>
+                    </div>
+                    <div class="form-row full">
+                        <label>Ihre E-Mail *</label>
+                        <input type="email" id="custEmail" placeholder="mail@beispiel.de" required onblur="this.value = this.value.replace(/@googlemail\.com$/i, '@gmail.com')">
+                    </div>
+
+                    <div class="form-row full hp-wrapper" aria-hidden="true">
+                        <label>Lassen Sie dieses Feld leer</label>
+                        <input type="text" id="bot_website_url" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div class="form-row full">
+                        <label>Anmerkungen (Optional)</label>
+                        <input type="text" id="custNote" placeholder="z.B. Besondere Hinweise...">
+                    </div>
+                </div>
+                
+                <p style="font-size: 0.75rem; color: var(--ink-60); text-align: center; margin: 15px 0 10px;">Die Bezahlung erfolgt ausschließlich in bar vor Ort.</p>
+                
+                <button class="btn btn-primary" onclick="submitReservation()" id="btnSubmit" disabled>Reservieren</button>
+                
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--parch); font-size: 0.75rem; color: var(--ink-60); line-height: 1.45;">
+                    <p style="margin-bottom: 8px;">🥤 <strong>Getränke:</strong><br>Kühle Getränke können Sie direkt vor Ort bestellen.</p>
+                    <p style="margin-bottom: 8px;">ℹ️ <strong>Allergene:</strong><br>Eine Liste der Allergene und Zusatzstoffe erhalten Sie auf Nachfrage beim Personal.</p>
+                    <p style="margin-bottom: 8px;">📞 <strong>Bestellungen außerhalb der Zeiten:</strong><br>Bitte telefonisch oder per E-Mail anfragen.</p>
+                    <p>❌ <strong>Stornierungen:</strong><br>Stornierungen sind bis Dienstag 11:00 Uhr möglich. Den Stornierungslink finden Sie in Ihrer Bestätigungs-E-Mail.</p>
+                </div>
+            </div>
+
+            <div class="success-box" id="res-success">
+                <div class="check">✓</div>
+                <h4 id="success-title">Reservierung erhalten!</h4>
+                <p id="success-desc">Vielen Dank, <strong id="c-name"></strong>. Bitte prüfen Sie Ihre E-Mails, um die Reservierung zu bestätigen. (15 Minuten gültig)</p>
+                
+                <div class="confirm-box">
+                    <table>
+                        <tr><td>Bestellnummer</td><td id="c-order"></td></tr>
+                        <tr><td>Datum</td><td id="c-date"></td></tr>
+                        <tr><td>Zeitfenster</td><td id="c-zeitfenster"></td></tr>
+                        <tr><td>Verzehrort</td><td id="c-type"></td></tr>
+                        <tr><td>Speise-Portionen</td><td id="c-portions"></td></tr>
+                    </table>
+                </div>
+
+                <button class="btn btn-add" style="margin-top: 15px;" onclick="location.reload()">Neue Reservierung</button>
+            </div>
+
+        </div>
+    </aside>
+</div>
+
+<div id="recipeModal" class="recipe-modal">
+    <div class="recipe-content">
+        <button class="recipe-close" onclick="closeRecipeModal()">✕</button>
+        <img id="recipeImg" src="" alt="Recipe" class="recipe-header-img">
+        
+        <div class="recipe-body">
+            <h2 id="recipeTitle" class="recipe-title-display">Gericht Name</h2>
+            <p id="recipeDesc" class="recipe-desc-display">Gericht Beschreibung</p>
+
+            <div class="recipe-meta-bar">
+                <div class="recipe-portions">
+                    Portionen 
+                    <div class="portion-pill">
+                        <span onclick="updateRecipePortions(-1)">-</span> 
+                        <strong id="recipePortionCount" style="color:#fff;">4</strong> 
+                        <span onclick="updateRecipePortions(1)">+</span>
+                    </div>
+                </div>
+                <div class="recipe-actions">
+                    </div>
+            </div>
+
+            <h3 class="recipe-section-title">ZUTATEN</h3>
+            <ul id="recipeIngredients" class="recipe-ingredients"></ul>
+
+            <h3 class="recipe-section-title">SCHRITTE</h3>
+            <div id="recipeSteps" class="recipe-steps"></div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+{% include footer.html %}
+
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzOq403kNYnhu0bsyS84B0H_-h_LopKyeJSXoXOs1WSqNCFjIpxVRa9zpV6gNKSUH8/exec";
+const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=1390274996';
+const GOOGLE_SHEET_SETTINGS_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=2136094151';
+
+let allDishesData = [];
+let menuData = [];
+let timeSlots = []; 
+let maxPortions = 25; 
+let cachedDate = "";
+let cachedSlot = "";
+let cachedAvailable = 25;
+
+let publicHolidays = [];
+let schoolVacations = [];
+
+function getDirectImageUrl(url) {
+    if (!url) return "placeholder.png";
+    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+    }
+    return url;
+}
+
+function getWeekNumber(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+}
+
+async function loadHolidaysAndVacations() {
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1; 
+    
+    try {
+        const holRes = await fetch(`https://openholidaysapi.org/PublicHolidays?countryIsoCode=DE&languageIsoCode=DE&validFrom=${currentYear}-01-01&validTo=${nextYear}-12-31&subdivisionCode=DE-BY`);
+        if (holRes.ok) {
+            const holData = await holRes.json();
+            publicHolidays = holData.map(h => h.startDate);
+        }
+
+        const vacRes = await fetch(`https://openholidaysapi.org/SchoolHolidays?countryIsoCode=DE&languageIsoCode=DE&validFrom=${currentYear}-01-01&validTo=${nextYear}-12-31&subdivisionCode=DE-BY`);
+        if (vacRes.ok) {
+            const vacData = await vacRes.json();
+            schoolVacations = vacData.map(v => ({ start: v.startDate, end: v.endDate }));
+        }
+    } catch (e) {
+        console.error("Konnte Feiertage und Ferien nicht laden:", e);
+    }
+}
+
+function isHolidayOrVacation(d) {
+    const tzoffset = d.getTimezoneOffset() * 60000;
+    const dateStr = (new Date(d - tzoffset)).toISOString().split('T')[0];
+
+    if (publicHolidays.includes(dateStr)) return true;
+
+    for (let v of schoolVacations) {
+        if (dateStr >= v.start && dateStr <= v.end) return true;
+    }
+    
+    return false;
+}
+
+function isDateAllowed(dateStr) {
+    if (!dateStr) return false;
+    const d = new Date(dateStr);
+    
+    if (d.getDay() !== 4) return false;
+    if (isHolidayOrVacation(d)) return false; 
+    
+    const now = new Date();
+    const deadline = new Date(d);
+    deadline.setDate(d.getDate() - 2);
+    deadline.setHours(12, 0, 0, 0);
+    if (now > deadline) return false;
+    
+    return true;
+}
+
+function getNextValidThursday() {
+    let d = new Date();
+    d.setHours(0,0,0,0);
+    for(let i = 0; i < 60; i++) { 
+        let testDate = new Date(d);
+        testDate.setDate(d.getDate() + i);
+        const tzoffset = testDate.getTimezoneOffset() * 60000;
+        let dateStr = (new Date(testDate - tzoffset)).toISOString().split('T')[0];
+        if(isDateAllowed(dateStr)) return dateStr;
+    }
+    return d.toISOString().split('T')[0];
+}
+
+function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let inQuotes = false;
+    let val = '';
+    for (let i = 0; i < text.length; i++) {
+        let c = text[i];
+        let nc = text[i+1];
+        if (c === '"' && inQuotes && nc === '"') { val += '"'; i++; }
+        else if (c === '"') { inQuotes = !inQuotes; }
+        else if (c === ',' && !inQuotes) { row.push(val); val = ''; }
+        else if (c === '\n' && !inQuotes) { row.push(val); rows.push(row); row = []; val = ''; }
+        else if (c === '\r' && !inQuotes) { /* ignore */ }
+        else { val += c; }
+    }
+    row.push(val);
+    rows.push(row);
+    return rows;
+}
+
+async function loadDishesFromCSV() {
+    try {
+        const response = await fetch(GOOGLE_SHEET_CSV_URL);
+        const csvText = await response.text();
+        const parsedData = parseCSV(csvText);
+        allDishesData = [];
+        for (let i = 1; i < parsedData.length; i++) {
+            const row = parsedData[i];
+            if (row.length < 6) continue;
+            allDishesData.push({
+                week: parseInt(row[0]),
+                id: 1,
+                type: "food",
+                name: row[1] ? row[1].trim() : "Gericht ohne Namen",
+                desc: row[2] ? row[2].trim() : "",
+                price: parseFloat(row[3] ? row[3].replace(',', '.') : 0),
+                tags: row[4] ? row[4].split(',').map(t => t.trim()).filter(t => t) : [],
+                img: row[5] ? row[5].trim() : "placeholder.png",
+                ingredients: row[6] ? row[6].trim() : "",
+                instructions: row[7] ? row[7].trim() : ""
+            });
+        }
+    } catch (error) {
+        console.error("Fehler beim Laden der CSV-Datenbank:", error);
+    }
+}
+
+async function loadSettingsFromCSV() {
+    try {
+        const response = await fetch(GOOGLE_SHEET_SETTINGS_URL);
+        const csvText = await response.text();
+        const parsedData = parseCSV(csvText);
+        
+        timeSlots = []; 
+        for (let i = 0; i < parsedData.length; i++) {
+            const row = parsedData[i];
+            
+            if (row.length >= 2 && row[0]) {
+                const key = row[0].trim().toLowerCase();
+                const value = row[1] ? row[1].trim() : "";
+
+                if (key === 'sitzplaetze') {
+                    maxPortions = 25;
+                } else if (key === 'telefon') {
+                    const telSpan = document.getElementById('footer-telefon');
+                    if(telSpan) telSpan.innerText = value;
+                } else if (key === 'fax') {
+                    const faxSpan = document.getElementById('footer-fax');
+                    if(faxSpan) faxSpan.innerText = value;
+                } else if (key === 'email') {
+                    const emailSpan = document.getElementById('footer-email');
+                    if(emailSpan) {
+                        emailSpan.innerText = value;
+                        emailSpan.href = 'mailto:' + value;
+                    }
+                } else if (key === 'logo_url') {
+                    const logoEl = document.getElementById('header-logo');
+                    if (logoEl && value) logoEl.src = getDirectImageUrl(value);
+                } else if (key === 'facebook_url') {
+                    const fbEl = document.getElementById('header-fb');
+                    if (fbEl && value) fbEl.href = value;
+                } else if (key === 'instagram_url') {
+                    const igEl = document.getElementById('header-ig');
+                    if (igEl && value) igEl.href = value;
+                }
+            }
+
+            if (row.length >= 6 && row[4]) {
+                const zKey = row[4].trim().toLowerCase();
+                const zValue = row[5] ? row[5].trim() : "";
+                
+                if (zKey.startsWith('zeitfenster') && zValue !== "") {
+                    timeSlots.push(zValue);
+                }
+            }
+        }
+        
+        const zSelect = document.getElementById('resZeitfenster');
+        if (zSelect) {
+            zSelect.innerHTML = '<option value="">— Wählen —</option>';
+            timeSlots.forEach((slot) => {
+                zSelect.innerHTML += `<option value="${slot}">${slot}</option>`;
+            });
+        }
+    } catch (error) {
+        console.error("Fehler beim Laden der Einstellungen:", error);
+    }
+}
+
+function handlePortionChange() {
+    let portionInput = document.getElementById('foodPortions');
+    let val = parseInt(portionInput.value) || 0;
+    let maxLimit = portionInput.hasAttribute('max') ? parseInt(portionInput.max) : maxPortions;
+    if (val > maxLimit) val = maxLimit;
+    if (val < 0) val = 0;
+    portionInput.value = val;
+    renderReservationList();
+    handleSplitChange(null);
+    checkAvailability(false); 
+}
+
+function handleSplitChange(changedElem) {
+    let ta = document.getElementById('splitTakeAway');
+    let vo = document.getElementById('splitVorOrt');
+    let total = parseInt(document.getElementById('foodPortions').value) || 0;
+    
+    ta.max = total;
+    vo.max = total;
+
+    let taVal = parseInt(ta.value) || 0;
+    let voVal = parseInt(vo.value) || 0;
+
+    if (taVal < 0) { ta.value = 0; taVal = 0; }
+    if (voVal < 0) { vo.value = 0; voVal = 0; }
+    if (taVal > total) { ta.value = total; taVal = total; }
+    if (voVal > total) { vo.value = total; voVal = total; }
+
+    if (taVal + voVal > total) {
+        if (changedElem && changedElem.id === 'splitTakeAway') {
+            vo.value = Math.max(0, total - taVal);
+        } else if (changedElem && changedElem.id === 'splitVorOrt') {
+            ta.value = Math.max(0, total - voVal);
+        } else {
+            if (taVal > total) {
+                ta.value = total;
+                vo.value = 0;
+            } else {
+                vo.value = total - taVal;
+            }
+        }
+    }
+}
+
+function updateMenuForDate(dateStr) {
+    if (!dateStr) return;
+    const selectedDate = new Date(dateStr);
+    
+    let weekNum = getWeekNumber(selectedDate);
+    if (weekNum > 52) weekNum = 52; 
+    
+    let activeDish = allDishesData.find(d => d.week === weekNum);
+    
+    menuData = [];
+    if (activeDish) {
+        menuData.push(activeDish);
+    } else {
+        menuData.push({
+            week: weekNum, id: 1, type: "food",
+            name: "Tagesgericht (in Planung)",
+            desc: "Das Gericht für diese Woche steht noch nicht fest.",
+            price: 8.00, tags: ["Hauptgericht"], img: "placeholder.png",
+            ingredients: "", instructions: ""
+        });
+    }
+    document.getElementById('activeFoodName').textContent = menuData[0].name;
+    renderMenu();
+    renderReservationList();
+}
+
+async function init() {
+    await loadHolidaysAndVacations();
+    await loadDishesFromCSV();
+    await loadSettingsFromCSV();
+    
+    const validStart = getNextValidThursday();
+
+    flatpickr("#resDate", {
+        locale: "de",
+        minDate: "today",
+        defaultDate: validStart,
+        dateFormat: "Y-m-d",
+        altInput: true,        
+        altFormat: "d.m.Y",    
+        disable: [
+            function(date) {
+                if (date.getDay() !== 4) return true; 
+                
+                const tzoffset = date.getTimezoneOffset() * 60000;
+                const checkDate = new Date(date - tzoffset);
+                
+                if (isHolidayOrVacation(checkDate)) return true; 
+                
+                const now = new Date();
+                const deadline = new Date(date);
+                deadline.setDate(date.getDate() - 2);
+                deadline.setHours(12, 0, 0, 0);
+                if (now > deadline) return true; 
+                
+                return false;
+            }
+        ],
+        onChange: function(selectedDates, dateStr, instance) {
+            updateMenuForDate(dateStr);
+            checkAvailability(true);
+        }
+    });
+
+    document.getElementById('resType').addEventListener('change', function() {
+        const splitRow = document.getElementById('splitPortionsRow');
+        splitRow.style.display = this.value === 'Beides' ? 'grid' : 'none';
+        if (this.value === 'Beides') {
+             handleSplitChange(null);
+        }
+    });
+
+    const btn = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileNav');
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        drawer.classList.toggle('open');
+        document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        btn.classList.remove('open');
+        drawer.classList.remove('open');
+        document.body.style.overflow = '';
+    }));
+
+    updateMenuForDate(validStart);
+    checkAvailability(true);
+}
+
+function createCardHTML(item) {
+    let tagsHtml = item.tags.map(tag => {
+        let tagClass = "tag";
+        if(tag.toLowerCase() === 'bio') tagClass += " bio";
+        if(tag.toLowerCase() === 'hauptgericht') tagClass += " highlight";
+        return `<span class="${tagClass}">${tag}</span>`;
+    }).join('');
+    
+    let safeImageUrl = getDirectImageUrl(item.img);
+    
+    return `
+        <div class="menu-card" onclick="openRecipeModal(${item.week})">
+            <img src="${safeImageUrl}" alt="${item.name}" class="menu-img">
+            <div class="menu-body">
+                <div class="menu-meta">
+                    <div class="menu-name">${item.name}</div>
+                    <div class="menu-price">${item.price.toFixed(2).replace('.',',')} €</div>
+                </div>
+                <p class="menu-desc">${item.desc}</p>
+                <div class="menu-tags">${tagsHtml}</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderMenu() {
+    document.getElementById('foodGrid').innerHTML = menuData.filter(i => i.type === 'food').map(createCardHTML).join('');
+}
+
+function getFoodPortionsCount() {
+    return parseInt(document.getElementById('foodPortions').value) || 0;
+}
+
+function renderReservationList() {
+    const container = document.getElementById('resItems');
+    let total = 0;
+    const foodPortions = getFoodPortionsCount();
+    const activeFood = menuData.find(m => m.type === 'food');
+    
+    if (activeFood && foodPortions > 0) {
+        total += activeFood.price * foodPortions;
+        const itemTotal = activeFood.price * foodPortions;
+        container.innerHTML = `
+            <div class="res-item">
+                <div class="res-item-info"><strong>${foodPortions}x</strong> ${activeFood.name}
+                    <span class="res-item-price">${itemTotal.toFixed(2).replace('.',',')} €</span>
+                </div>
+            </div>`;
+    } else {
+        container.innerHTML = `<p style="font-size:0.85rem; color:var(--ink-40);" id="emptyResMsg">Noch keine Speisen ausgewählt.</p>`;
+    }
+    
+    document.getElementById('resTotalPrice').textContent = total.toFixed(2).replace('.',',') + ' €';
+}
+
+async function getTakenPortionsFromDB(date) {
+    try {
+        const response = await fetch(GAS_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'check', date: date }) 
+        });
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        const data = await response.json();
+        return data.success ? data.taken : 0;
+    } catch (e) {
+        console.error("Fetch-Fehler:", e);
+        return 0;
+    }
+}
+
+async function checkAvailability(forceFetch = false) {
+    const date = document.getElementById('resDate').value;
+    const zeitfenster = document.getElementById('resZeitfenster').value;
+    const btnSubmit = document.getElementById('btnSubmit');
+    const availDisplay = document.getElementById('availability-display');
+    const portionInput = document.getElementById('foodPortions');
+    
+    let requestedPortions = getFoodPortionsCount();
+    const hasItems = requestedPortions > 0;
+
+    if (date && !isDateAllowed(date)) {
+        availDisplay.innerHTML = `⚠️ <strong>Datum nicht wählbar!</strong> Nur freie Schultage verfügbar.`;
+        availDisplay.style.color = "var(--err)";
+        btnSubmit.disabled = true;
+        portionInput.max = 0;
+        if(requestedPortions > 0) {
+            portionInput.value = 0;
+            renderReservationList();
+        }
+        return;
+    }
+    
+    if (!date || !zeitfenster) {
+        availDisplay.innerHTML = "Bitte Datum und Zeitfenster wählen, um die Verfügbarkeit zu sehen.";
+        availDisplay.style.color = "var(--ink-60)";
+        btnSubmit.disabled = true;
+        return;
+    }
+    
+    if (forceFetch || date !== cachedDate) {
+        availDisplay.innerHTML = "⏳ Prüfe Verfügbarkeit...";
+        availDisplay.style.color = "var(--ink-60)";
+        btnSubmit.disabled = true;
+
+        const taken = await getTakenPortionsFromDB(date); 
+        cachedAvailable = Math.max(0, maxPortions - taken);
+        cachedDate = date;
+        cachedSlot = zeitfenster;
+    }
+
+    portionInput.max = cachedAvailable;
+    
+    if (requestedPortions > cachedAvailable) {
+        portionInput.value = cachedAvailable;
+        requestedPortions = cachedAvailable;
+        renderReservationList(); 
+        handleSplitChange(null); 
+    }
+
+    if (cachedAvailable <= 0) {
+        availDisplay.innerHTML = `⚠️ <strong>Ausgebucht!</strong> Keine Speisen mehr für diesen Tag verfügbar.`;
+        availDisplay.style.color = "var(--err)";
+        btnSubmit.disabled = true;
+    } else {
+        availDisplay.innerHTML = `✓ Noch <strong>${cachedAvailable} von ${maxPortions} Portionen</strong> für diesen Tag verfügbar.`;
+        availDisplay.style.color = "var(--ok)";
+        btnSubmit.disabled = !hasItems;
+    }
+}
+
+async function submitReservation() {
+    const name = document.getElementById('custName').value.trim();
+    const email = document.getElementById('custEmail').value.trim().replace(/@googlemail\.com$/i, '@gmail.com');
+    const date = document.getElementById('resDate').value;
+    const zeitfenster = document.getElementById('resZeitfenster').value;
+    let type = document.getElementById('resType').value;
+    const note = document.getElementById('custNote').value.trim();
+    const hp = document.getElementById('bot_website_url').value;
+    const requestedPortions = getFoodPortionsCount();
+
+    if (!name || !email || !date || !zeitfenster) {
+        return showToast("Bitte füllen Sie alle erforderlichen Felder aus!");
+    }
+
+    if (type === 'Beides') {
+        const taQty = parseInt(document.getElementById('splitTakeAway').value) || 0;
+        const voQty = parseInt(document.getElementById('splitVorOrt').value) || 0;
+        if (taQty + voQty !== requestedPortions && requestedPortions > 0) {
+            return showToast(`Fehler: Aufteilung (${taQty + voQty}) entspricht nicht den bestellten Speise-Portionen (${requestedPortions}).`);
+        }
+        type = `Beides (${taQty}x Take-Away, ${voQty}x Vor Ort)`;
+    }
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    btnSubmit.innerHTML = "Verarbeite... ⏳";
+    btnSubmit.disabled = true;
+
+    const dateStr = new Date(date).toLocaleDateString('de-DE', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+
+    if (hp) {
+        setTimeout(() => showSuccessScreen(999, name, dateStr, zeitfenster, type, requestedPortions), 1500);
+        return;
+    }
+
+    let total = 0;
+    let resItemsStr = '';
+    const activeFood = menuData.find(m => m.type === 'food');
+    if (activeFood && requestedPortions > 0) {
+        total += activeFood.price * requestedPortions;
+        resItemsStr = `${requestedPortions}x ${activeFood.name}`;
+    }
+
+    const finalPriceString = total.toFixed(2).replace('.', ',') + ' €';
+    const baseUrl = window.location.href.substring(0, window.location.href.indexOf('?')) || window.location.href; 
+
+    try {
+        const dbResponse = await fetch(GAS_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'book', name: name, email: email, date: date, slot: zeitfenster, 
+                type: type, portions: requestedPortions, items: resItemsStr, note: note,
+                price: finalPriceString, baseUrl: baseUrl 
+            })
+        });
+        if (!dbResponse.ok) throw new Error(`HTTP Error: ${dbResponse.status}`);
+        const dbResult = await dbResponse.json();
+        
+        if (!dbResult.success) {
+            showToast(dbResult.message);
+            btnSubmit.innerHTML = "Reservieren";
+            btnSubmit.disabled = false;
+            return;
+        }
+
+        showSuccessScreen(dbResult.orderId, name, dateStr, zeitfenster, type, requestedPortions);
+
+    } catch (e) {
+        console.warn("Fehler:", e);
+        showToast("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.");
+        btnSubmit.innerHTML = "Reservieren";
+        btnSubmit.disabled = false;
+    }
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+function showSuccessScreen(orderNumber, name, dateStr, zeitfenster, type, requestedPortions) {
+    document.getElementById('reservationForm').style.display = 'none';
+    const successBox = document.getElementById('res-success');
+    successBox.style.display = 'block';
+    document.getElementById('c-name').textContent = name;
+    document.getElementById('c-order').textContent = orderNumber;
+    document.getElementById('c-date').textContent = dateStr;
+    document.getElementById('c-zeitfenster').textContent = zeitfenster;
+    document.getElementById('c-type').textContent = type;
+    document.getElementById('c-portions').textContent = requestedPortions;
+}
+
+// ----------------------
+// Recipe Modal Logic
+// ----------------------
+
+let currentDish = null; 
+
+function updateRecipePortions(change) {
+    const countElem = document.getElementById('recipePortionCount');
+    let currentCount = parseInt(countElem.textContent) || 4;
+    
+    let newCount = currentCount + change;
+    if (newCount < 1) newCount = 1;
+    
+    countElem.textContent = newCount;
+    renderIngredients();
+}
+
+function renderIngredients() {
+    const ingContainer = document.getElementById('recipeIngredients');
+    ingContainer.innerHTML = '';
+    
+    if (!currentDish || !currentDish.ingredients) {
+        ingContainer.innerHTML = '<li>Keine Zutaten angegeben</li>';
+        return;
+    }
+
+    const currentPortions = parseInt(document.getElementById('recipePortionCount').textContent) || 1;
+    const items = currentDish.ingredients.split(/,\s+/);
+    
+    items.forEach(item => {
+        let text = item.trim();
+        if (!text) return;
+
+        const match = text.match(/^([\d.,]+)\s*(.*)/);
+        if (match) {
+            let numStr = match[1].replace(',', '.');
+            let amount = parseFloat(numStr);
+            
+            if (!isNaN(amount)) {
+                let scaledAmount = amount * currentPortions;
+                let formattedAmount = Number.isInteger(scaledAmount) 
+                    ? scaledAmount 
+                    : scaledAmount.toFixed(1).replace('.', ',');
+                
+                text = `<strong style="color: #fff; margin-right: 5px;">${formattedAmount}</strong> ${match[2]}`;
+            }
+        }
+        ingContainer.innerHTML += `<li>${text}</li>`;
+    });
+}
+
+function openRecipeModal(weekId) {
+    const dish = allDishesData.find(d => d.week === weekId);
+    if(!dish) return;
+
+    currentDish = dish;
+    document.getElementById('recipePortionCount').textContent = "4"; 
+    
+    document.getElementById('recipeImg').src = getDirectImageUrl(dish.img);
+    
+    const isBio = dish.tags.map(t => t.toLowerCase()).includes('bio') ? '<span style="font-size:1.1rem; font-weight:400; color:#888;"> (Bio)</span>' : '';
+    document.getElementById('recipeTitle').innerHTML = `${dish.name}${isBio}`;
+    document.getElementById('recipeDesc').textContent = dish.desc;
+
+    renderIngredients();
+
+    const stepsContainer = document.getElementById('recipeSteps');
+    stepsContainer.innerHTML = '';
+    if(dish.instructions) {
+        const steps = dish.instructions.split(/\.\s+|\n+/).filter(s => s.trim().length > 0);
+        steps.forEach((s, index) => {
+            let text = s.trim();
+            if(!text.endsWith('.')) text += '.';
+            stepsContainer.innerHTML += `
+                <div class="recipe-step">
+                    <div class="step-number">${index + 1}</div>
+                    <div class="step-text">${text}</div>
+                </div>
+            `;
+        });
+    } else {
+        stepsContainer.innerHTML = '<div class="step-text">Keine Anleitung in der Datenbank hinterlegt.</div>';
+    }
+
+    document.getElementById('recipeModal').classList.add('open');
+    document.body.style.overflow = 'hidden'; 
+}
+
+function closeRecipeModal() {
+    document.getElementById('recipeModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
