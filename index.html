@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DÜRERs · Schülercafé & Bistro Haßfurt</title>
+    <meta name="description" content="DÜRERs Café & Bistro – frisch gekochte Mittagsgerichte von Schülerinnen und Schülern der Albrecht-Dürer-Schule Haßfurt.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --ink: #1a1208; --ink-80: rgba(26,18,8,0.8); --ink-60: rgba(26,18,8,0.6); --ink-40: rgba(26,18,8,0.4); --ink-15: rgba(26,18,8,0.15);
+        --cream: #faf6ef; --parch: #f0e8d8; --parch-d: #e4d8c4;
+        --rust: #8b3a2a; --rust-l: #b84e38; --gold: #c49a2a; --gold-l: #e8c060; --sage: #4a5c46;
+        --shadow-sm: 0 2px 8px rgba(26,18,8,0.10); --shadow-md: 0 4px 24px rgba(26,18,8,0.14);
+        --r-sm: 6px; --r: 12px; font-size: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+    body::before {
+        content: ''; position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    header { position: sticky; top: 0; z-index: 200; background: var(--ink); height: 66px; display: flex; align-items: center; padding: 0 5%; border-bottom: 2px solid var(--gold); justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+    .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .school-logo { height: 40px; width: 40px; object-fit: contain; background: white; border-radius: 4px; padding: 2px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: var(--cream); text-decoration: none; flex-shrink: 0; }
+    .logo span { color: var(--white); }
+    
+    nav { display: flex; align-items: center; margin-left: 10px; overflow-x: auto; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { display: flex; align-items: center; height: 66px; padding: 0 14px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(250,246,239,0.65); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+    nav a:hover, nav a.active { color: var(--gold-l); border-bottom-color: var(--gold); }
+    
+    .header-right { display: flex; align-items: center; gap: 15px; }
+    .social-icon { color: rgba(250,246,239,0.65); display: flex; align-items: center; transition: color 0.2s, transform 0.2s; }
+    .social-icon:hover { color: var(--gold-l); transform: translateY(-2px); }
+    
+    .hero { position: relative; height: min(80vh, 640px); background: url('picture2.jpeg') center/cover no-repeat; display: flex; align-items: flex-end; overflow: hidden; background-color: var(--ink-80); transition: background-image 0.5s ease; }
+    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(155deg, rgba(26,18,8,0.0) 20%, rgba(26,18,8,0.5) 60%, rgba(26,18,8,0.95) 100%); }
+    .hero-content { position: relative; z-index: 2; padding: 3rem 6% 3.5rem; max-width: 700px; }
+    
+    /* Angepasste Klasse für dieselbe Schriftgröße wie die Sektions-Überschrift */
+    .hero-eyebrow { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        font-family: 'DM Mono', monospace; 
+        font-size: clamp(1.2rem, 2.5vw, 1.8rem); 
+        letter-spacing: 0.2em; 
+        text-transform: uppercase; 
+        color: white; 
+        background: rgba(196,154,42,0.12); 
+        border: 1px solid rgba(196,154,42,0.35); 
+        padding: 5px 14px; 
+        border-radius: 2px; 
+        margin-bottom: 1.1rem; 
+    }
+    
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 900; line-height: 1.12; color: var(--cream); margin-bottom: 0.8rem; transition: opacity 0.3s; }
+    .hero h1 em { color: var(--gold-l); font-style: italic; }
+    .hero-sub { font-size: 1rem; color: rgba(250,246,239,0.75); margin-bottom: 1.8rem; max-width: 480px; }
+    
+    .action-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 26px; border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; background: var(--rust); color: white; box-shadow: 0 4px 18px rgba(139,58,42,0.4); }
+    .action-btn:hover { background: var(--rust-l); transform: translateY(-2px); }
+    
+    .info-strip { background: var(--parch); border-bottom: 1px solid var(--parch-d); padding: 14px 6%; display: flex; gap: 2rem; flex-wrap: wrap; align-items: center; font-size: 0.82rem; color: var(--ink-60); justify-content: center; }
+    .info-item { display: flex; align-items: center; gap: 7px; }
+    .info-icon { width: 28px; height: 28px; background: var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; flex-shrink: 0; }
+    .info-item strong { color: var(--ink); }
+
+    .section-wrap { max-width: 1160px; margin: 0 auto; padding: 0 5%; }
+    
+    .section-eyebrow { font-family: 'DM Mono', monospace; font-size: clamp(1.2rem, 2.5vw, 1.8rem); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 15px; }
+    .section-eyebrow::after { content: ''; display: inline-block; height: 2px; width: 60px; background: var(--gold); opacity: 0.5; }
+    
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .section-title em { color: var(--rust); font-style: italic; }
+
+    .hours-section { padding: 4.5rem 0; background: var(--parch); border-top: 1px solid var(--parch-d); border-bottom: 1px solid var(--parch-d); }
+    .hours-grid { max-width: 600px; margin: 2.5rem auto 0; }
+    .hours-table { background: white; border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow-md); }
+    .hours-table-head { background: var(--ink); padding: 1rem 1.5rem; font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold-l); display: flex; align-items: center; gap: 10px; }
+    .hours-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--parch); font-size: 0.9rem; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row.today { background: rgba(196,154,42,0.08); font-weight: 500; }
+    .hours-day { color: var(--ink-60); }
+    .hours-time { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--ink); }
+    .hours-closed { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--ink-40); }
+    .hours-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(58,158,106,0.12); color: #2d7a52; border: 1px solid rgba(58,158,106,0.25); padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 500; }
+    .hours-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #3a9e6a; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+
+    .about-section { padding: 5rem 0; background: var(--cream); }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 2.5rem; }
+    .about-text-block h3 { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: var(--ink); margin-bottom: 1.1rem; line-height: 1.25; }
+    .about-text-block h3 em { color: var(--rust); font-style: italic; }
+    .about-text-block p { font-size: 0.93rem; color: var(--ink-60); margin-bottom: 1rem; line-height: 1.8; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.8rem; margin-bottom: 2.5rem; }
+    .stat-box { background: var(--parch); border-radius: var(--r-sm); padding: 1rem 1.2rem; border-left: 3px solid var(--gold); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--rust); line-height: 1; margin-bottom: 4px; }
+    .stat-label { font-size: 0.78rem; color: var(--ink-60); }
+
+    .about-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .about-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--r-sm); box-shadow: var(--shadow-sm); transition: transform 0.25s, box-shadow 0.25s; }
+    .about-gallery img:hover { transform: scale(1.02); box-shadow: var(--shadow-md); }
+    .about-gallery img:first-child { grid-column: 1 / -1; aspect-ratio: 16/9; border-radius: var(--r); }
+
+    .features-section { padding: 4.5rem 0; background: white; border-top: 1px solid var(--parch); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .feature-card { background: var(--cream); border-radius: var(--r); padding: 1.8rem 1.5rem; box-shadow: var(--shadow-sm); border-bottom: 3px solid transparent; transition: box-shadow 0.25s, transform 0.25s; }
+    .feature-card:hover { box-shadow: var(--shadow-md); border-bottom-color: var(--gold); transform: translateY(-4px); }
+    .feature-icon { font-size: 1.9rem; margin-bottom: 1rem; display: block; }
+    .feature-card h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.82rem; color: var(--ink-60); line-height: 1.6; }
+
+    .location-section { padding: 5rem 0; background: var(--parch); border-top: 1px solid var(--parch-d); }
+    .map-wrapper { width: 100%; height: 450px; border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow-md); margin-top: 2.5rem; background: var(--parch-d); }
+    .map-wrapper iframe { width: 100%; height: 100%; border: none; }
+
+    footer { background: rgba(26,18,8,0.99); border-top: 1px solid rgba(196,154,42,0.25); color: rgba(250,246,239,0.4); }
+    .footer-main { max-width: 1160px; margin: 0 auto; padding: 3rem 5% 2rem; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 2.5rem; }
+    .footer-col h5 { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+    .footer-col a { display: block; color: inherit; text-decoration: none; font-size: 0.85rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold-l); }
+    .footer-col p { font-size: 0.85rem; margin-bottom: 0.5rem; color: inherit; }
+    .footer-bottom { border-top: 1px solid rgba(196,154,42,0.12); padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 0.75rem; flex-wrap: wrap; gap: 10px; }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 300; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav { display: none; position: fixed; top: 66px; left: 0; right: 0; bottom: 0; background: var(--ink); z-index: 199; flex-direction: column; padding: 1.5rem 6%; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-size: 1.2rem; font-weight: 500; color: rgba(250,246,239,0.75); text-decoration: none; padding: 1rem 0; border-bottom: 1px solid rgba(196,154,42,0.15); letter-spacing: 0.04em; transition: color 0.2s; }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover, .mobile-nav a.active { color: var(--gold-l); }
+    .mobile-nav a.active { color: var(--gold); }
+
+    @media (max-width: 900px) {
+        .about-inner { grid-template-columns: 1fr; }
+        .footer-main { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+        .header-left nav { display: none; }
+        .hero h1 { font-size: 2.2rem; }
+        .map-wrapper { height: 350px; }
+        .footer-main { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; text-align: center; }
+        .about-gallery { grid-template-columns: 1fr; }
+        .about-gallery img:first-child { grid-column: auto; }
+        
+        .hamburger { display: flex; order: 3; margin-left: 15px; }
+        .header-right { order: 2; }
+        .header-left { order: 1; }
+    }
+    </style>
+</head>
+<body>
+
+{% include header.html %}
+
+<section class="hero" id="hero-section">
+    <div class="hero-content">
+        <div class="hero-eyebrow">Schülercafé & Bistro</div>
+        <h1 id="tagline-el">Frisch gekocht,<br><em>mit Herz serviert</em></h1>
+        <p class="hero-sub" id="hero-subtitle-el">Ein Projekt der Albrecht-Dürer-Schule Haßfurt. Entdecken Sie unser jeden Donnerstag frisch zubereitetes, biozertifiziertes und vegetarisches Menü.</p>
+    </div>
+</section>
+
+<div class="info-strip">
+    <div class="info-item"><div class="info-icon">🕐</div><span id="info-time">Lädt...</span></div>
+    <div class="info-item"><div class="info-icon">📍</div><span id="info-schule">Lädt...</span></div>
+    <div class="info-item"><div class="info-icon">📞</div><span id="info-telefon">Lädt...</span></div>
+    <div class="info-item"><div class="info-icon">📠</div><span id="info-fax">Lädt...</span></div>
+    <div class="info-item"><div class="info-icon">✉️</div><span id="info-email">Lädt...</span></div>
+</div>
+
+<section class="about-section">
+    <div class="section-wrap">
+        <div class="section-eyebrow">Geschichte & Konzept</div>
+        <h2 class="section-title">Wir sind <em>DÜRERs</em></h2>
+        <div class="about-inner">
+            <div class="about-text-block">
+                <h3>Das Café, das von <em>Schülerinnen & Schülern</em> betrieben wird</h3>
+                <p>DÜRERs Café & Bistro ist ein einzigartiges Schulprojekt der Albrecht-Dürer-Schule in Haßfurt. Schülerinnen und Schüler betreiben das Café weitgehend in Eigenregie und bereiten jeden Donnerstag frische Zutaten aus der Region zu köstlichen Mittagsgerichten zu.</p>
+                <p>Um stets höchste Qualität zu gewährleisten und nachhaltig zu wirtschaften, bieten wir jede Woche <strong>maximal 25 Portionen</strong> an.</p>
+                <div class="about-stats">
+                    <div class="stat-box">
+                        <div class="stat-num">5</div>
+                        <div class="stat-label">Tische im Bistro</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num" id="stat-sitzplaetze">-</div>
+                        <div class="stat-label">Sitzplätze im Bistro</div>
+                    </div>
+                </div>
+                <div>
+                    <a href="menu-reservierung.html" class="action-btn">🍽 Speisekarte & Reservierung</a>
+                </div>
+            </div>
+            
+            <div class="about-gallery" id="gallery-container">
+                <img src="picture1.jpeg" alt="Frisches Essen" loading="lazy">
+                <img src="picture2.jpeg" alt="Im Bistro" loading="lazy">
+                <img src="picture4.jpeg" alt="Im Bistro" loading="lazy">
+                <img src="picture5.jpeg" alt="Zubereitung" loading="lazy">
+                <img src="picture6.jpeg" alt="Teamarbeit" loading="lazy">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="hours-section">
+    <div class="section-wrap">
+        <div class="section-eyebrow">Öffnungszeiten</div>
+        <h2 class="section-title" style="text-align: center;">Wann sind wir <em>für Sie da</em></h2>
+        <div class="hours-grid">
+            <div class="hours-table">
+                <div class="hours-table-head">🕐 <span style="margin-left:8px;">Unsere Öffnungszeiten</span></div>
+                <div id="hoursRows" style="padding: 1.5rem; text-align: center; color: var(--ink-60);">Lade Öffnungszeiten...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="section-wrap">
+        <div class="section-eyebrow">Was wir bieten</div>
+        <h2 class="section-title">Qualität <em>& Transparenz</em></h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🌱</span>
+                <h4>Frische Zutaten</h4>
+                <p>Wir bemühen uns um eine nachhaltige Speisenzubereitung und bieten überwiegend vegetarische Gerichte aus frischen regionalen Produkten an.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">ℹ️</span>
+                <h4>Allergenkennzeichnung</h4>
+                <p>Eine detaillierte Allergenkennzeichnung erhalten Sie auf unserer Speisekarte sowie auf direkte Nachfrage beim Personal.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💵</span>
+                <h4>Nur Barzahlung</h4>
+                <p>Wir akzeptieren aktuell ausschließlich Bargeld für Zahlungen vor Ort im Bistro.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🥡</span>
+                <h4>Take-Away</h4>
+                <p>Ihre reservierten Speisen können Sie donnerstags ganz einfach bei uns abholen und umweltbewusst mitnehmen.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="location-section">
+    <div class="section-wrap">
+        <div class="section-eyebrow">Standort</div>
+        <h2 class="section-title">Hier finden Sie <em>uns</em></h2>
+        <div class="map-wrapper">
+            <iframe 
+                id="map-iframe"
+                src="https://maps.google.com/maps?q=D%C3%BCrerweg%2022,%2097437%20Ha%C3%9Ffurt&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+{% include footer.html %}
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileNav');
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        drawer.classList.toggle('open');
+        document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        btn.classList.remove('open');
+        drawer.classList.remove('open');
+        document.body.style.overflow = '';
+    }));
+
+    // --- Google Apps Script URL (Ihre neue Angabe) ---
+    // Wenn das Excel-Dokument exakt gleich geblieben ist und Sie es in ein neues Konto 
+    // umgezogen haben, reicht es meistens, das Sheet öffentlich zu machen und einfach 
+    // die neue 'sheetId' unten einzutragen.
+    // Falls Sie tatsächlich dieses Apps Script verwenden möchten, muss meistens der 
+    // 'fetchSheetData' Ablauf umgebaut werden, da Apps Scripts Standard-JSON ausgeben.
+    const appScriptUrl = 'https://script.google.com/macros/s/AKfycbzOq403kNYnhu0bsyS84B0H_-h_LopKyeJSXoXOs1WSqNCFjIpxVRa9zpV6gNKSUH8/exec';
+    
+    const sheetId = '1NBf0GJcJEDiGx7XRvt-g6gqqr-ok9gA3i_efv57Z2i8'; // Alternativ hier einfach die ID der neuen Tabelle rein
+    const settingsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
+    const hoursUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=%C3%96ffnungszeiten&headers=1`;
+    const galleryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Bildergalerie&headers=1`;
+
+    function getDirectImageUrl(url) {
+        if (!url) return '';
+        const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+            return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+        }
+        return url;
+    }
+
+    async function fetchSheetData(url) {
+        const res = await fetch(url);
+        const text = await res.text();
+        
+        const firstBracket = text.indexOf('{');
+        const lastBracket = text.lastIndexOf('}');
+        
+        if (firstBracket === -1 || lastBracket === -1) {
+            throw new Error("Invalid response from Google Sheets (No JSON found)");
+        }
+        
+        let jsonString = text.substring(firstBracket, lastBracket + 1);
+        jsonString = jsonString.replace(/new Date\([^)]+\)/g, 'null');
+        
+        return JSON.parse(jsonString).table;
+    }
+
+    async function loadDynamicData() {
+        try {
+            const [settingsTable, hoursTable, galleryTable] = await Promise.all([
+                fetchSheetData(settingsUrl),
+                fetchSheetData(hoursUrl),
+                fetchSheetData(galleryUrl).catch(() => null)
+            ]);
+
+            // --- 1. EINSTELLUNGEN VERARBEITEN ---
+            const settings = {};
+            settingsTable.rows.forEach(row => {
+                if (row && row.c && row.c[0] && row.c[0].v !== null) {
+                    const key = String(row.c[0].v).trim();
+                    let value = '';
+                    
+                    if (row.c[1]) {
+                        if (row.c[1].v !== null && row.c[1].v !== undefined) {
+                            value = String(row.c[1].v);
+                        } else if (row.c[1].f !== null && row.c[1].f !== undefined) {
+                            value = String(row.c[1].f);
+                        }
+                    }
+                    settings[key] = value.trim();
+                }
+            });
+
+            const setText = (id, val) => {
+                const el = document.getElementById(id);
+                if (el && val) el.innerText = val;
+            };
+
+            // Veraltete/Überschreibende SetText Aufrufe für den Hero-Bereich & die 25 Portionen wurden entfernt
+            setText('info-telefon', settings['telefon']);
+            setText('info-fax', settings['fax']);
+            setText('info-email', settings['email']);
+            setText('info-schule', settings['schule']);
+            setText('stat-sitzplaetze', settings['sitzplaetze']);
+            setText('footer-telefon', settings['telefon']);
+            setText('footer-fax', settings['fax']);
+
+            const footerEmail = document.getElementById('footer-email');
+            if (footerEmail && settings['email']) {
+                footerEmail.innerText = settings['email'];
+                footerEmail.href = 'mailto:' + settings['email'];
+            }
+
+            if (settings['maps_embed_url']) {
+                const mapEl = document.getElementById('map-iframe');
+                if (mapEl) mapEl.src = settings['maps_embed_url'];
+            }
+            if (settings['facebook_url']) {
+                const fbEl = document.getElementById('header-fb');
+                if (fbEl) fbEl.href = settings['facebook_url'];
+            }
+            if (settings['instagram_url']) {
+                const igEl = document.getElementById('header-ig');
+                if (igEl) igEl.href = settings['instagram_url'];
+            }
+
+            if (settings['logo_url']) {
+                const logoEl = document.getElementById('header-logo');
+                if (logoEl) {
+                    logoEl.src = getDirectImageUrl(settings['logo_url']);
+                }
+            }
+
+            if (settings['hero_image']) {
+                const heroSection = document.getElementById('hero-section');
+                if (heroSection) {
+                    const heroDirectUrl = getDirectImageUrl(settings['hero_image']);
+                    heroSection.style.backgroundImage = `url('${heroDirectUrl}')`;
+                }
+            }
+
+            // --- 2. ÖFFNUNGSZEITEN VERARBEITEN ---
+            const days = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"];
+            const hours = [null, null, null, null, null, null, null];
+
+            hoursTable.rows.forEach(row => {
+                if (!row || !row.c || !row.c[0] || !row.c[0].v) return;
+
+                const dayName = row.c[0].v.toString().trim();
+                const dayIndex = days.indexOf(dayName);
+
+                if (dayIndex !== -1) {
+                    const getTimeStr = (cell) => {
+                        if(!cell || (cell.v === null && cell.f === undefined)) return null;
+                        if(cell.f) return cell.f; 
+                        if(Array.isArray(cell.v)) return `${String(cell.v[0]).padStart(2,'0')}:${String(cell.v[1]).padStart(2,'0')}`; 
+                        return cell.v.toString();
+                    };
+
+                    const openTime = getTimeStr(row.c[1]);
+                    const closeTime = getTimeStr(row.c[2]);
+
+                    if (openTime && closeTime && openTime.trim() !== '' && closeTime.trim() !== '') {
+                        hours[dayIndex] = [openTime, closeTime];
+                    }
+                }
+            });
+
+            const infoTimeEl = document.getElementById('info-time');
+            if (infoTimeEl) {
+                const firstOpenIdx = hours.findIndex(h => h !== null);
+                if (firstOpenIdx !== -1) {
+                    infoTimeEl.innerText = `${days[firstOpenIdx]} ${hours[firstOpenIdx][0]}–${hours[firstOpenIdx][1]}`;
+                } else {
+                    infoTimeEl.innerText = "Derzeit geschlossen";
+                }
+            }
+
+            const now = new Date(); 
+            const todayIdx = (now.getDay() + 6) % 7; 
+            const nowMin = now.getHours() * 60 + now.getMinutes();
+            const hoursRowsEl = document.getElementById('hoursRows');
+
+            if (hoursRowsEl) {
+                hoursRowsEl.innerHTML = hours.map((h, i) => {
+                    const isToday = i === todayIdx;
+                    let timeContent = !h ? `<span class="hours-closed">Geschlossen</span>` : `<span class="hours-time">${h[0]} – ${h[1]}</span>`;
+                    
+                    if (h && isToday) {
+                        const [oH, oM] = h[0].split(':').map(Number);
+                        const [cH, cM] = h[1].split(':').map(Number);
+                        const openMin = oH * 60 + (oM || 0);
+                        const closeMin = cH * 60 + (cM || 0);
+                        
+                        if (nowMin >= openMin && nowMin < closeMin) {
+                            timeContent += `<span class="hours-badge">Jetzt geöffnet</span>`;
+                        }
+                    }
+                    
+                    return `
+                        <div class="hours-row ${isToday ? 'today' : ''}"> 
+                            <span class="hours-day">${days[i]}</span> 
+                            <div style="display:flex;gap:8px;">${timeContent}</div> 
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // --- 3. GALERIE BILDER VERARBEITEN ---
+            if (galleryTable && galleryTable.rows && galleryTable.rows.length > 0) {
+                const galleryContainer = document.getElementById('gallery-container');
+                let galleryHTML = '';
+                
+                galleryTable.rows.forEach(row => {
+                    if (row && row.c && row.c[1] && row.c[1].v) {
+                        const rawUrl = String(row.c[1].v).trim();
+                        const imgUrl = getDirectImageUrl(rawUrl);
+                        
+                        const altText = (row.c[2] && row.c[2].v) ? String(row.c[2].v).trim() : 'DÜRERs Bistro Bild';
+                        
+                        galleryHTML += `<img src="${imgUrl}" alt="${altText}" loading="lazy">`;
+                    }
+                });
+
+                if (galleryHTML !== '' && galleryContainer) {
+                    galleryContainer.innerHTML = galleryHTML;
+                }
+            }
+
+        } catch (error) {
+            console.error("Fehler beim Laden der Google Sheets Daten:", error);
+            const hoursRowsEl = document.getElementById('hoursRows');
+            if (hoursRowsEl) {
+                hoursRowsEl.innerHTML = '<div style="padding: 1.5rem; color: red;">Fehler beim Laden der Daten. Bitte prüfen Sie die Freigabeeinstellungen.</div>';
+            }
+        }
+    }
+
+    loadDynamicData();
+});
+</script>
+</body>
+</html>
