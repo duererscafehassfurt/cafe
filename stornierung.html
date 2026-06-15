@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stornierung · DÜRERs Café & Bistro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --ink: #1a1208; --ink-60: rgba(26,18,8,0.6); --ink-40: rgba(26,18,8,0.4); --ink-15: rgba(26,18,8,0.15);
+        --cream: #faf6ef; --parch: #f0e8d8; --parch-d: #e4d8c4;
+        --rust: #8b3a2a; --rust-l: #b84e38; --gold: #c49a2a; --gold-l: #e8c060; --sage: #4a5c46;
+        --ok: #3a9e6a; --err: #c0392b;
+        --shadow-sm: 0 2px 8px rgba(26,18,8,0.10); --shadow-md: 0 4px 24px rgba(26,18,8,0.14);
+        --r-sm: 6px; --r: 12px; font-size: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+        font-family: 'DM Sans', sans-serif; font-weight: 300; 
+        background: var(--cream); color: var(--ink); 
+        line-height: 1.7; 
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    
+    body::before {
+        content: ''; position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* =========================================
+       HEADER, NAVIGATION & FOOTER STYLES 
+       ========================================= */
+    header { position: sticky; top: 0; z-index: 200; background: var(--ink); height: 66px; display: flex; align-items: center; padding: 0 5%; border-bottom: 2px solid var(--gold); justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+    .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .school-logo { height: 40px; width: 40px; object-fit: contain; background: white; border-radius: 4px; padding: 2px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: var(--cream); text-decoration: none; flex-shrink: 0; }
+    .logo span { color: var(--gold); }
+    nav { display: flex; align-items: center; margin-left: 10px; overflow-x: auto; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { display: flex; align-items: center; height: 66px; padding: 0 14px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(250,246,239,0.65); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+    nav a:hover, nav a.active { color: var(--gold-l); border-bottom-color: var(--gold); }
+    
+    .header-right { display: flex; align-items: center; gap: 15px; }
+    .social-icon { color: rgba(250,246,239,0.65); display: flex; align-items: center; transition: color 0.2s, transform 0.2s; }
+    .social-icon:hover { color: var(--gold-l); transform: translateY(-2px); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 6px; cursor: pointer; padding: 5px; background: none; border: none; z-index: 300; margin-right: 5px;}
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .mobile-nav { display: none; position: fixed; top: 66px; left: 0; right: 0; bottom: 0; background: var(--ink); z-index: 199; flex-direction: column; align-items: center; padding-top: 4rem; overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { position: relative; font-size: 1.05rem; font-weight: 400; color: rgba(250,246,239,0.75); text-decoration: none; padding: 1.5rem 0; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; text-align: center; width: 100%; max-width: 250px; }
+    .mobile-nav a:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 1px; background: rgba(196,154,42,0.25); }
+    .mobile-nav a:hover, .mobile-nav a.active { color: var(--gold); }
+
+    footer { background: rgba(26,18,8,0.99); border-top: 1px solid rgba(196,154,42,0.25); color: rgba(250,246,239,0.4); margin-top: auto;}
+    .footer-main { max-width: 1160px; margin: 0 auto; padding: 3rem 5% 2rem; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 2.5rem; }
+    .footer-col h5 { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+    .footer-col a { display: block; color: inherit; text-decoration: none; font-size: 0.85rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold-l); }
+    .footer-col p { font-size: 0.85rem; margin-bottom: 0.5rem; color: inherit; }
+    .footer-bottom { border-top: 1px solid rgba(196,154,42,0.12); padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 0.75rem; flex-wrap: wrap; gap: 10px; }
+
+    /* =========================================
+       PAGE SPECIFIC STYLES 
+       ========================================= */
+    .main-wrapper {
+        flex: 1; /* Pushes footer to the bottom */
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        padding: 4rem 1rem;
+        position: relative; 
+        z-index: 1;
+    }
+
+    .cancel-box { 
+        background: white; 
+        max-width: 500px; width: 100%; 
+        border-radius: var(--r); 
+        padding: 2.5rem 2rem; 
+        box-shadow: var(--shadow-md); 
+        border-top: 4px solid var(--rust);
+        text-align: center;
+    }
+
+    .title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem; color: var(--ink); }
+    .desc { font-size: 0.95rem; color: var(--ink-60); margin-bottom: 2rem; }
+    
+    .btn { 
+        display: inline-block; width: 100%; padding: 14px 20px; 
+        border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; 
+        font-size: 0.95rem; font-weight: 600; cursor: pointer; 
+        border: none; transition: all 0.2s; text-decoration: none; 
+        margin-bottom: 10px;
+    }
+    .btn:active { transform: scale(0.98); }
+    
+    .btn-primary { background: var(--rust); color: white; box-shadow: 0 4px 14px rgba(139,58,42,0.3); }
+    .btn-primary:hover:not(:disabled) { background: var(--rust-l); }
+    .btn-primary:disabled { background: rgba(26,18,8,0.2); color: rgba(26,18,8,0.6); box-shadow: none; cursor: not-allowed; }
+    
+    .btn-secondary { background: var(--parch); color: var(--ink); border: 1.5px solid var(--parch-d); }
+    .btn-secondary:hover { background: var(--parch-d); }
+
+    .status-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .icon-ok { color: var(--ok); }
+    .icon-err { color: var(--err); }
+    
+    .loading-spinner {
+        border: 4px solid var(--parch);
+        border-top: 4px solid var(--rust);
+        border-radius: 50%; width: 40px; height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1.5rem auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* =========================================
+       MEDIA QUERIES 
+       ========================================= */
+    @media (max-width: 900px) { .footer-main { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { 
+        .header-left nav { display: none; } 
+        .hamburger { display: flex; order: 3; margin-right: 0; margin-left: 10px; } 
+        .footer-main { grid-template-columns: 1fr; } 
+        .footer-bottom { flex-direction: column; text-align: center; } 
+    }
+    </style>
+</head>
+<body>
+
+    {% include header.html %}
+
+    <main class="main-wrapper">
+        <div class="cancel-box" id="app-container">
+            </div>
+    </main>
+
+    {% include footer.html %}
+
+    <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyFg4xTQolhTvSXk04XbL4sdylImCCxWtzjadehNgWCVSp5FQNLK14GLNqdmWEZT83C/exec";
+        const GOOGLE_SHEET_SETTINGS_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=931186417';
+
+        // --- HELPER FUNKTIONEN FÜR HEADER/FOOTER ---
+        function parseCSV(text) {
+            const rows = [];
+            let row = [];
+            let inQuotes = false;
+            let val = '';
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i], nc = text[i+1];
+                if (c === '"' && inQuotes && nc === '"') { val += '"'; i++; }
+                else if (c === '"') { inQuotes = !inQuotes; }
+                else if (c === ',' && !inQuotes) { row.push(val); val = ''; }
+                else if (c === '\n' && !inQuotes) { row.push(val); rows.push(row); row = []; val = ''; }
+                else if (c === '\r' && !inQuotes) { }
+                else { val += c; }
+            }
+            row.push(val); rows.push(row);
+            return rows;
+        }
+
+        function getDirectImageUrl(url) {
+            if (!url) return "placeholder.png";
+            const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+            }
+            return url;
+        }
+
+        // --- EINSTELLUNGEN LADEN (LOGO, EMAIL, TELEFON) ---
+        async function loadSettingsFromCSV() {
+            try {
+                const response = await fetch(GOOGLE_SHEET_SETTINGS_URL);
+                const csvText = await response.text();
+                const parsedData = parseCSV(csvText);
+                
+                parsedData.forEach(row => {
+                    if (row.length >= 2 && row[0]) {
+                        const key = row[0].trim().toLowerCase();
+                        const value = row[1] ? row[1].trim() : "";
+
+                        if (key === 'telefon') {
+                            const telSpan = document.getElementById('footer-telefon');
+                            if(telSpan) telSpan.innerText = value;
+                        } else if (key === 'fax') {
+                            const faxSpan = document.getElementById('footer-fax');
+                            if(faxSpan) faxSpan.innerText = value;
+                        } else if (key === 'email') {
+                            const emailSpan = document.getElementById('footer-email');
+                            if(emailSpan) {
+                                emailSpan.innerText = value;
+                                emailSpan.href = 'mailto:' + value;
+                            }
+                        } else if (key === 'logo_url') {
+                            const logoEl = document.getElementById('header-logo');
+                            if (logoEl && value) logoEl.src = getDirectImageUrl(value);
+                        } else if (key === 'facebook_url') {
+                            const fbEl = document.getElementById('header-fb');
+                            if (fbEl && value) fbEl.href = value;
+                        } else if (key === 'instagram_url') {
+                            const igEl = document.getElementById('header-ig');
+                            if (igEl && value) igEl.href = value;
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Fehler beim Laden der Einstellungen:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Daten für Header & Footer laden
+            loadSettingsFromCSV();
+
+            // 2. Mobile Navigation aktivieren
+            const hambBtn = document.getElementById('hamburger');
+            const drawer  = document.getElementById('mobileNav');
+            if (hambBtn && drawer) {
+                hambBtn.addEventListener('click', () => {
+                    hambBtn.classList.toggle('open');
+                    drawer.classList.toggle('open');
+                    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+                });
+                drawer.querySelectorAll('a').forEach(a => {
+                    a.addEventListener('click', () => {
+                        hambBtn.classList.remove('open');
+                        drawer.classList.remove('open');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // 3. Stornierungs-Logik
+            const container = document.getElementById('app-container');
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('cancel');
+            const email = params.get('email');
+
+            if (!orderId || !email) {
+                container.innerHTML = `
+                    <div class="status-icon icon-err">❌</div>
+                    <h2 class="title">Ungültiger Link</h2>
+                    <p class="desc">Dieser Stornierungslink ist ungültig oder unvollständig. Bitte nutzen Sie den Link aus Ihrer Bestätigungs-E-Mail.</p>
+                    <a href="menu-reservierung.html" class="btn btn-primary">Zurück zur Speisekarte</a>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <h2 class="title">Reservierung stornieren</h2>
+                <p class="desc">Möchten Sie die Reservierung <strong>#${orderId}</strong> wirklich stornieren?<br><br>Eine Stornierung ist kostenfrei, sofern die Frist noch nicht abgelaufen ist.</p>
+                <button id="btnConfirm" class="btn btn-primary">Ja, kostenfrei stornieren</button>
+                <a href="menu-reservierung.html" class="btn btn-secondary">Abbrechen & Zurück</a>
+            `;
+
+            document.getElementById('btnConfirm').addEventListener('click', async function() {
+                const btn = this;
+                btn.disabled = true;
+                
+                container.innerHTML = `
+                    <div class="loading-spinner"></div>
+                    <h2 class="title">Wird verarbeitet...</h2>
+                    <p class="desc">Ihre Stornierung wird an das System übermittelt. Bitte haben Sie einen Moment Geduld.</p>
+                `;
+
+                try {
+                    const response = await fetch(GAS_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'cancel',
+                            orderId: orderId,
+                            email: email
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        container.innerHTML = `
+                            <div class="status-icon icon-ok">✓</div>
+                            <h2 class="title">Erfolgreich storniert</h2>
+                            <p class="desc">Ihre Reservierung <strong>#${orderId}</strong> wurde storniert. Sie erhalten in Kürze eine Bestätigung per E-Mail an ${email}.</p>
+                            <a href="menu-reservierung.html" class="btn btn-primary">Zurück zur Speisekarte</a>
+                        `;
+                    } else {
+                        container.innerHTML = `
+                            <div class="status-icon icon-err">❌</div>
+                            <h2 class="title">Stornierung fehlgeschlagen</h2>
+                            <p class="desc">${result.message}</p>
+                            <a href="menu-reservierung.html" class="btn btn-primary">Zurück zur Speisekarte</a>
+                        `;
+                    }
+                } catch (error) {
+                    container.innerHTML = `
+                        <div class="status-icon icon-err">⚠️</div>
+                        <h2 class="title">Verbindungsfehler</h2>
+                        <p class="desc">Der Server konnte nicht erreicht werden. Bitte versuchen Sie es in ein paar Minuten erneut.</p>
+                        <a href="javascript:location.reload()" class="btn btn-primary">Seite neu laden</a>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
