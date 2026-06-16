@@ -42,14 +42,14 @@ footer { background: rgba(26,18,8,0.99); border-top: 1px solid rgba(196,154,42,0
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // ID der Google-Tabelle und GID des Tabs "Einstellungen"
     const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ';
-    const urlEinstellungen = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=931186417`;
+    
+    // WICHTIG: Wir nutzen "sheet=Einstellungen&headers=1", um die verbundene Zeile 1 zu überspringen!
+    const urlEinstellungen = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
 
     fetch(urlEinstellungen)
         .then(res => res.text())
         .then(text => {
-            // Bereinigen der Google-Antwort, um reines JSON zu erhalten
             const firstBracket = text.indexOf('{');
             const lastBracket = text.lastIndexOf('}');
             if (firstBracket === -1 || lastBracket === -1) return;
@@ -58,25 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const table = JSON.parse(jsonString).table;
             const settings = {};
 
-            // Durch die Zeilen iterieren und Schlüssel sowie Werte sammeln
             table.rows.forEach(row => {
                 if (row && row.c && row.c[0] && row.c[0].v !== null) {
-                    const key = String(row.c[0].v).trim(); // Schlüssel aus Spalte A holen
+                    const key = String(row.c[0].v).trim();
                     let value = '';
-                    if (row.c[1] && row.c[1].v !== null) {
-                        value = String(row.c[1].v).trim(); // Wert aus Spalte B holen
+                    if (row.c[1]) {
+                        if (row.c[1].v !== null && row.c[1].v !== undefined) value = String(row.c[1].v);
+                        else if (row.c[1].f !== null && row.c[1].f !== undefined) value = String(row.c[1].f);
                     }
-                    settings[key] = value;
+                    settings[key] = value.trim();
                 }
             });
 
-            // Hilfsfunktion zum Einfügen von Text anhand der Element-ID
             const setText = (id, val) => {
                 const el = document.getElementById(id);
                 if (el && val) el.innerText = val;
             };
 
-            // Die genauen Schlüssel (Keys) aus der Tabelle verwenden
+            // Daten in den Footer einsetzen
             setText('footer-telefon', settings['telefon']);
             setText('footer-fax',     settings['fax']);
             
