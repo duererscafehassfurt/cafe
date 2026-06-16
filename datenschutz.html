@@ -50,7 +50,7 @@
     .mobile-nav { display: none; position: fixed; top: 66px; left: 0; right: 0; bottom: 0; background: var(--ink); z-index: 199; flex-direction: column; align-items: center; padding-top: 4rem; overflow-y: auto; }
     .mobile-nav.open { display: flex; }
     .mobile-nav a { position: relative; font-size: 1.05rem; font-weight: 400; color: rgba(250,246,239,0.75); text-decoration: none; padding: 1.5rem 0; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; text-align: center; width: 100%; max-width: 250px; }
-    .mobile-nav a:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 1px; background: rgba(196,154,42,0.25); }
+    .mobile-nav a:not(:last-child)::after { content: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 1px; background: rgba(196,154,42,0.25); }
     .mobile-nav a:hover, .mobile-nav a.active { color: var(--gold); }
 
     .page-wrap { max-width: 800px; margin: 3rem auto 5rem; padding: 0 5%; position: relative; z-index: 1; }
@@ -107,7 +107,8 @@
         <li><span id="ds-feld2">Ihre E-Mail-Adresse</span></li>
         <li>Details zu Ihrer Bestellung (<span id="ds-feld3a">gewählte Speisen</span>, <span id="ds-feld3b">Datum</span>, <span id="ds-feld3c">Zeitfenster</span>, <span id="ds-feld3d">Verzehrort</span>, <span id="ds-feld3e">optionale Anmerkungen</span>)</li>
     </ul>
-    <p><strong>Zweck der Verarbeitung:</strong> Diese Daten werden ausschließlich dazu verwendet, Ihre Reservierung zu bearbeiten, das Menü entsprechend vorzubereiten und Ihnen eine Bestätigungs-E-Mail zuzusenden. Rechtsgrundlage hierfür ist die Erfüllung eines Vertrags bzw. vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO).</p>
+    <p><strong>Catering-Anfragen:</strong> Wenn Sie über unser Formular eine Catering-Anfrage stellen und Informationen eingeben (z. B. Name, E-Mail-Adresse, Veranstaltungsdetails), werden diese Daten von uns gespeichert, um Ihr Vorhaben zu planen und Sie diesbezüglich kontaktieren zu können.</p>
+    <p><strong>Zweck der Verarbeitung:</strong> Diese Daten werden ausschließlich dazu verwendet, Ihre Reservierung bzw. Catering-Anfrage zu bearbeiten, das Menü entsprechend vorzubereiten und Ihnen eine Bestätigungs-E-Mail zuzusenden. Rechtsgrundlage hierfür ist die Erfüllung eines Vertrags bzw. vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO).</p>
 
     <h2>3. Weitergabe von Daten an Dritte (Auftragsverarbeiter)</h2>
     <p>Um unseren Reservierungsservice technisch umsetzen zu können, nutzen wir die Dienste folgender Drittanbieter. Mit diesen Anbietern bestehen entsprechende Vereinbarungen zur Auftragsverarbeitung (AVV), um den Schutz Ihrer Daten zu gewährleisten:</p>
@@ -117,7 +118,8 @@
     </ul>
 
     <h2>4. Speicherdauer und Löschung</h2>
-    <p>Ihre persönlichen Daten (Name und E-Mail-Adresse) werden nur so lange gespeichert, wie es für die Abwicklung der Reservierung notwendig ist. Wir löschen diese personenbezogenen Bezeichner routinemäßig am Ende des jeweiligen Schulhalbjahres, spätestens jedoch nach Ablauf gesetzlicher Aufbewahrungsfristen. Anonymisierte Bestelldaten bewahren wir für schulische Statistikzwecke auf.</p>
+    <p>Ihre persönlichen Daten (Name und E-Mail-Adresse) werden nur so lange gespeichert, wie es für die Abwicklung der Reservierung oder Anfrage notwendig ist. Wir löschen diese personenbezogenen Bezeichner routinemäßig am Ende des jeweiligen Schulhalbjahres, spätestens jedoch nach Ablauf gesetzlicher Aufbewahrungsfristen. Anonymisierte Bestelldaten bewahren wir für schulische Statistikzwecke auf.</p>
+    <p><strong>Löschung von Catering-Daten auf Anfrage:</strong> Wenn Sie eine Catering-Anfrage gestellt haben und möchten, dass wir Ihre diesbezüglich eingegebenen Daten vorzeitig löschen, kontaktieren Sie uns bitte einfach per E-Mail. Wir werden Ihre Daten dann umgehend entfernen.</p>
 
     <h2>5. Cookies und Tracking</h2>
     <p><strong>Wir setzen auf dieser Website keinerlei Cookies oder Tracking-Tools ein.</strong><br> 
@@ -132,7 +134,7 @@
         <li>Einschränkung der Datenverarbeitung (Art. 18 DSGVO).</li>
         <li>Widerruf einer erteilten Einwilligung zur Datenverarbeitung (Art. 7 Abs. 3 DSGVO).</li>
     </ul>
-    <p>Wenn Sie Ihre Rechte ausüben möchten, kontaktieren Sie uns bitte unter der oben genannten Adresse.</p>
+    <p>Wenn Sie Ihre Rechte (wie z. B. die Löschung Ihrer Catering-Anfrage) ausüben möchten, kontaktieren Sie uns bitte einfach per E-Mail unter der oben genannten Adresse.</p>
 </main>
 
 {% include footer.html %}
