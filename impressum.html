@@ -156,29 +156,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Shared helpers - HIER IST DIE NEUE GOOGLE SHEET ID
+    // 2. Shared helpers - GOOGLE SHEET ID
     const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ';
 
     async function fetchSheetData(url) {
-        const res = await fetch(url);
-        const text = await res.text();
-        const firstBracket = text.indexOf('{');
-        const lastBracket = text.lastIndexOf('}');
-        if (firstBracket === -1 || lastBracket === -1) throw new Error("Invalid response");
-        let jsonString = text.substring(firstBracket, lastBracket + 1);
-        jsonString = jsonString.replace(/new Date\([^)]+\)/g, 'null');
-        return JSON.parse(jsonString).table;
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            const text = await res.text();
+            
+            // Extract JSON
+            const firstBracket = text.indexOf('{');
+            const lastBracket = text.lastIndexOf('}');
+            if (firstBracket === -1 || lastBracket === -1) {
+                throw new Error("Invalid response from Google Sheets. Make sure the sheet is public (Anyone with the link can view).");
+            }
+            
+            let jsonString = text.substring(firstBracket, lastBracket + 1);
+            jsonString = jsonString.replace(/new Date\([^)]+\)/g, 'null');
+            return JSON.parse(jsonString).table;
+        } catch (error) {
+            console.error("Fetch Error:", error);
+            throw error;
+        }
     }
 
-    function getValueByKey(rows, key) {
+    // NEW FUNCTION: Gathers ALL matches into an array and ignores line-breaks/spaces in keys.
+    function getValuesByKey(rows, key) {
+        const results = [];
         for (const row of rows) {
             if (row && row.c && row.c[0] && row.c[0].v !== null) {
-                if (String(row.c[0].v).trim() === key) {
-                    return row.c[1] && row.c[1].v != null ? String(row.c[1].v).trim() : '';
+                // Normalize spaces and line breaks (e.g. "Titel & Name \n Schulleitung" -> "Titel & Name Schulleitung")
+                const cellKey = String(row.c[0].v).replace(/\s+/g, ' ').trim();
+                if (cellKey === key) {
+                    results.push(row.c[1] && row.c[1].v != null ? String(row.c[1].v).trim() : '');
                 }
             }
         }
-        return '';
+        return results;
     }
 
     const setText = (id, val) => {
@@ -187,42 +202,54 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 3. Load Impressum tab content
-    const urlImpressum = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=1817133936`;
+    // Changed "gid" to "sheet=Impressum" to ensure it targets the correct tab even if GID changes
+    const urlImpressum = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Impressum`;
     fetchSheetData(urlImpressum)
         .then(table => {
             const rows = table.rows;
 
-            // Updated strictly to match column A in the Google Sheet
-            setText('data-dienste-str',        getValueByKey(rows, "Straße und Hausnummer"));
-            setText('data-dienste-plz',        getValueByKey(rows, "PLZ und Ort"));
-            
-            setText('data-vertr-schulleitung', getValueByKey(rows, "Titel & Name Schulleitung"));
-            setText('data-vertr-lehrkraft',    getValueByKey(rows, "Vertreten durch"));
-            
-            setText('data-kontakt-tel',        getValueByKey(rows, "Telefonnummer"));
-            setText('data-kontakt-fax',        getValueByKey(rows, "Faxnummer"));
-            
-            setText('data-traeger-name',       getValueByKey(rows, "Name des Schulträgers"));
-            setText('data-traeger-adresse',    getValueByKey(rows, "Adresse Schulträger"));
-            
-            setText('data-redaktion-name',     getValueByKey(rows, "Name der Person"));
-            setText('data-redaktion-str',      getValueByKey(rows, "Straße und Hausnummer")); 
-            setText('data-redaktion-plz',      getValueByKey(rows, "PLZ und Ort"));            
+            // Collect arrays because these fields appear twice in the Google Sheet
+            const strList = getValuesByKey(rows, "Straße und Hausnummer");
+            const plzList = getValuesByKey(rows, "PLZ und Ort");
 
-            const email = getValueByKey(rows, "E-Mail-Adresse");
-            if (email) {
-                setText('data-kontakt-email', email);
-                document.getElementById('data-kontakt-email-link').href = 'mailto:' + email;
+            // Diensteanbieter (First occurrence)
+            setText('data-dienste-str',        strList[0] || '');
+            setText('data-dienste-plz',        plzList[0] || '');
+            
+            setText('data-vertr-schulleitung', getValuesByKey(rows, "Titel & Name Schulleitung")[0] || '');
+            setText('data-vertr-lehrkraft',    getValuesByKey(rows, "Vertreten durch")[0] || '');
+            
+            setText('data-kontakt-tel',        getValuesByKey(rows, "Telefonnummer")[0] || '');
+            setText('data-kontakt-fax',        getValuesByKey(rows, "Faxnummer")[0] || '');
+            
+            setText('data-traeger-name',       getValuesByKey(rows, "Name des Schulträgers")[0] || '');
+            setText('data-traeger-adresse',    getValuesByKey(rows, "Adresse Schulträger")[0] || '');
+            
+            setText('data-redaktion-name',     getValuesByKey(rows, "Name der Person")[0] || '');
+            
+            // Redaktion (Second occurrence, fallback to first if missing)
+            setText('data-redaktion-str',      strList[1] || strList[0] || ''); 
+            setText('data-redaktion-plz',      plzList[1] || plzList[0] || '');            
+
+            const emails = getValuesByKey(rows, "E-Mail-Adresse");
+            if (emails.length > 0 && emails[0]) {
+                setText('data-kontakt-email', emails[0]);
+                const mailLink = document.getElementById('data-kontakt-email-link');
+                if (mailLink) mailLink.href = 'mailto:' + emails[0];
             }
         })
-        .catch(err => console.error("Fehler Impressum-Tab:", err));
+        .catch(err => {
+            console.error("Fehler beim Laden des Impressums:", err);
+            // Optional: alert or visual warning if data fails to load
+        });
 
     // 4. Load Einstellungen tab — footer + header
-    const urlEinstellungen = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
+    const urlEinstellungen = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen`;
     fetchSheetData(urlEinstellungen)
         .then(table => {
             const rows = table.rows;
             const settings = {};
+            
             rows.forEach(row => {
                 if (row && row.c && row.c[0] && row.c[0].v !== null) {
                     const key = String(row.c[0].v).trim();
