@@ -50,7 +50,10 @@
     .mobile-nav { display: none; position: fixed; top: 66px; left: 0; right: 0; bottom: 0; background: var(--ink); z-index: 199; flex-direction: column; align-items: center; padding-top: 4rem; overflow-y: auto; }
     .mobile-nav.open { display: flex; }
     .mobile-nav a { position: relative; font-size: 1.05rem; font-weight: 400; color: rgba(250,246,239,0.75); text-decoration: none; padding: 1.5rem 0; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; text-align: center; width: 100%; max-width: 250px; }
-    .mobile-nav a:not(:last-child)::after { content: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 1px; background: rgba(196,154,42,0.25); }
+    
+    /* FIX: Corrected CSS syntax here */
+    .mobile-nav a:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 1px; background: rgba(196,154,42,0.25); }
+    
     .mobile-nav a:hover, .mobile-nav a.active { color: var(--gold); }
 
     .page-wrap { max-width: 800px; margin: 3rem auto 5rem; padding: 0 5%; position: relative; z-index: 1; }
@@ -157,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Shared sheet helpers (same pattern as index.html / catering.html)
+    // 2. Shared sheet helpers
     const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ';
 
     async function fetchSheetData(url) {
@@ -188,7 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 3. Load Datenschutz tab content
-    const urlDatenschutz = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=1581605777`;
+    // FIX: Changed from hardcoded gid to "sheet=Datenschutz"
+    const urlDatenschutz = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Datenschutz`;
     fetchSheetData(urlDatenschutz)
         .then(table => {
             const rows = table.rows;
@@ -223,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => console.error("Fehler Datenschutz-Tab:", err));
 
-    // 4. Load Einstellungen tab — footer (same as index.html / catering.html)
+    // 4. Load Einstellungen tab — footer
     const urlEinstellungen = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
     fetchSheetData(urlEinstellungen)
         .then(table => {
