@@ -298,15 +298,11 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
     }));
 
-    // --- Google Apps Script URL (Ihre neue Angabe) ---
-    // Wenn das Excel-Dokument exakt gleich geblieben ist und Sie es in ein neues Konto 
-    // umgezogen haben, reicht es meistens, das Sheet öffentlich zu machen und einfach 
-    // die neue 'sheetId' unten einzutragen.
-    // Falls Sie tatsächlich dieses Apps Script verwenden möchten, muss meistens der 
-    // 'fetchSheetData' Ablauf umgebaut werden, da Apps Scripts Standard-JSON ausgeben.
+    // --- Google Apps Script URL ---
     const appScriptUrl = 'https://script.google.com/macros/s/AKfycbzOq403kNYnhu0bsyS84B0H_-h_LopKyeJSXoXOs1WSqNCFjIpxVRa9zpV6gNKSUH8/exec';
     
-    const sheetId = '1NBf0GJcJEDiGx7XRvt-g6gqqr-ok9gA3i_efv57Z2i8'; // Alternativ hier einfach die ID der neuen Tabelle rein
+    // HIER IST DIE NEUE UND RICHTIGE ID:
+    const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ'; 
     const settingsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
     const hoursUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=%C3%96ffnungszeiten&headers=1`;
     const galleryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Bildergalerie&headers=1`;
@@ -368,20 +364,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (el && val) el.innerText = val;
             };
 
-            // Veraltete/Überschreibende SetText Aufrufe für den Hero-Bereich & die 25 Portionen wurden entfernt
+            // Nur noch die Infos der Startseite setzen. Der Footer regelt sich nun selbst!
             setText('info-telefon', settings['telefon']);
             setText('info-fax', settings['fax']);
             setText('info-email', settings['email']);
             setText('info-schule', settings['schule']);
             setText('stat-sitzplaetze', settings['sitzplaetze']);
-            setText('footer-telefon', settings['telefon']);
-            setText('footer-fax', settings['fax']);
-
-            const footerEmail = document.getElementById('footer-email');
-            if (footerEmail && settings['email']) {
-                footerEmail.innerText = settings['email'];
-                footerEmail.href = 'mailto:' + settings['email'];
-            }
 
             if (settings['maps_embed_url']) {
                 const mapEl = document.getElementById('map-iframe');
