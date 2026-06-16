@@ -142,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const sheetId = '1NBf0GJcJEDiGx7XRvt-g6gqqr-ok9gA3i_efv57Z2i8';
+    // HIER IST DIE NEUE UND RICHTIGE ID:
+    const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ';
     const settingsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
     const cateringGalleryUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Bilder Catering&headers=1`;
 
@@ -220,25 +221,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     emailBtn.textContent = '✉️ ' + settings['email'];
                     emailBtn.href = 'mailto:' + settings['email'];
                 }
-
-                // Footer — same as index.html
-                setText('footer-telefon', settings['telefon']);
-                setText('footer-fax', settings['fax']);
-                const footerEmail = document.getElementById('footer-email');
-                if (footerEmail && settings['email']) {
-                    footerEmail.innerText = settings['email'];
-                    footerEmail.href = 'mailto:' + settings['email'];
-                }
+                
+                // HINWEIS: Der fehlerhafte Footer-Code wurde hier gelöscht!
             }
 
             if (cateringTable && cateringTable.rows && cateringTable.rows.length > 0) {
                 const galleryContainer = document.getElementById('catering-gallery');
                 let galleryHTML = '';
                 cateringTable.rows.forEach((row, index) => {
-                    // FIX: Changed from row.c[0] to row.c[1] to target Column B
                     if (row && row.c && row.c[1] && row.c[1].v) {
                         const imgUrl = getDirectImageUrl(String(row.c[1].v).trim());
-                        // FIX: Changed alt text source to row.c[2] (Column C) as a fallback
                         const altText = (row.c[2] && row.c[2].v) ? String(row.c[2].v).trim() : `DÜRERs Catering Bild ${index + 1}`;
                         const className = index === 0 ? 'gallery-img large' : 'gallery-img';
                         galleryHTML += `<img src="${imgUrl}" alt="${altText}" class="${className}" loading="lazy">`;
