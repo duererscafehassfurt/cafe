@@ -19,7 +19,6 @@ footer { background: rgba(26,18,8,0.99); border-top: 1px solid rgba(196,154,42,0
         <div class="footer-col">
             <h5>Kontakt</h5>
             <p>📞 Tel: <span id="footer-telefon"></span></p>
-            <p>📠 Fax: <span id="footer-fax"></span></p>
             <p>✉️ Mail: <a href="" id="footer-email" style="display:inline; padding:0;"></a></p>
         </div>
         <div class="footer-col">
@@ -77,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Daten in den Footer einsetzen
             setText('footer-telefon', settings['telefon']);
-            setText('footer-fax',     settings['fax']);
             
             const footerEmail = document.getElementById('footer-email');
             if (footerEmail && settings['email']) {
