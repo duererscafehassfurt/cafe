@@ -223,7 +223,7 @@
             
             <div id="reservationForm">
                 <h2 class="res-title">Ihre Reservierung</h2>
-                <p class="res-subtitle">Stellen Sie hier Ihre Portionen zusammen. <br><strong>Achtung:</strong> Reservierung für Donnerstag nur bis Dienstag 12:00 Uhr möglich.</p>
+                <p class="res-subtitle">Stellen Sie hier Ihre Portionen zusammen. <br><strong>Achtung:</strong> Reservierung nur bis 2 Tage im Voraus (12:00 Uhr) möglich.</p>
                 
                 <div class="res-items" id="resItems">
                     <p style="font-size:0.85rem; color:var(--ink-40);" id="emptyResMsg">Noch keine Speisen ausgewählt.</p>
@@ -308,7 +308,7 @@
                     <p style="margin-bottom: 8px;">🥤 <strong>Getränke:</strong><br>Kühle Getränke können Sie direkt vor Ort bestellen.</p>
                     <p style="margin-bottom: 8px;">ℹ️ <strong>Allergene:</strong><br>Eine Liste der Allergene und Zusatzstoffe erhalten Sie auf Nachfrage beim Personal.</p>
                     <p style="margin-bottom: 8px;">📞 <strong>Bestellungen außerhalb der Zeiten:</strong><br>Bitte telefonisch oder per E-Mail anfragen.</p>
-                    <p>❌ <strong>Stornierungen:</strong><br>Stornierungen sind bis Dienstag 11:00 Uhr möglich. Den Stornierungslink finden Sie in Ihrer Bestätigungs-E-Mail.</p>
+                    <p>❌ <strong>Stornierungen:</strong><br>Stornierungen sind bis 2 Tage vor dem Termin (11:00 Uhr) möglich. Den Stornierungslink finden Sie in Ihrer Bestätigungs-E-Mail.</p>
                 </div>
             </div>
 
@@ -373,6 +373,9 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzOq403kNYnhu0bsyS84B0H_-h_LopKyeJSXoXOs1WSqNCFjIpxVRa9zpV6gNKSUH8/exec";
 const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=668890783';
 const GOOGLE_SHEET_SETTINGS_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=931186417';
+const GOOGLE_SHEET_HOURS_URL = 'https://docs.google.com/spreadsheets/d/1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ/export?format=csv&gid=417255931';
+
+let allowedDays = [4]; // Default to Thursday 
 
 let allDishesData = [];
 let menuData = [];
@@ -439,7 +442,7 @@ function isDateAllowed(dateStr) {
     if (!dateStr) return false;
     const d = new Date(dateStr);
     
-    if (d.getDay() !== 4) return false;
+    if (!allowedDays.includes(d.getDay())) return false; 
     if (isHolidayOrVacation(d)) return false; 
     
     const now = new Date();
@@ -451,7 +454,7 @@ function isDateAllowed(dateStr) {
     return true;
 }
 
-function getNextValidThursday() {
+function getNextValidDay() {
     let d = new Date();
     d.setHours(0,0,0,0);
     for(let i = 0; i < 60; i++) { 
@@ -482,6 +485,32 @@ function parseCSV(text) {
     row.push(val);
     rows.push(row);
     return rows;
+}
+
+async function loadOpeningHoursFromCSV() {
+    try {
+        const response = await fetch(GOOGLE_SHEET_HOURS_URL);
+        const csvText = await response.text();
+        const parsedData = parseCSV(csvText);
+
+        const dayMap = { "sonntag": 0, "montag": 1, "dienstag": 2, "mittwoch": 3, "donnerstag": 4, "freitag": 5, "samstag": 6 };
+        let loadedDays = [];
+
+        for (let i = 1; i < parsedData.length; i++) {
+            const row = parsedData[i];
+            // If the row has a day name AND the "Öffnung" (column 2) is not empty
+            if (row.length >= 2 && row[0] && row[1].trim() !== "") { 
+                const dayName = row[0].trim().toLowerCase();
+                if (dayMap[dayName] !== undefined) {
+                    loadedDays.push(dayMap[dayName]);
+                }
+            }
+        }
+        // Apply the loaded days if we found any
+        if (loadedDays.length > 0) allowedDays = loadedDays;
+    } catch (error) {
+        console.error("Fehler beim Laden der Öffnungszeiten:", error);
+    }
 }
 
 async function loadDishesFromCSV() {
@@ -526,7 +555,7 @@ async function loadSettingsFromCSV() {
                 const value = row[1] ? row[1].trim() : "";
 
                 if (key === 'sitzplaetze') {
-                    maxPortions = 25;
+                    maxPortions = parseInt(value) || 25;
                 } else if (key === 'telefon') {
                     const telSpan = document.getElementById('footer-telefon');
                     if(telSpan) telSpan.innerText = value;
@@ -648,10 +677,11 @@ async function init() {
     await Promise.all([
         loadHolidaysAndVacations(),
         loadDishesFromCSV(),
-        loadSettingsFromCSV()
+        loadSettingsFromCSV(),
+        loadOpeningHoursFromCSV()
     ]);
     
-    const validStart = getNextValidThursday();
+    const validStart = getNextValidDay();
 
     flatpickr("#resDate", {
         locale: "de",
@@ -662,7 +692,7 @@ async function init() {
         altFormat: "d.m.Y",    
         disable: [
             function(date) {
-                if (date.getDay() !== 4) return true; 
+                if (!allowedDays.includes(date.getDay())) return true; 
                 
                 const tzoffset = date.getTimezoneOffset() * 60000;
                 const checkDate = new Date(date - tzoffset);
