@@ -554,7 +554,7 @@ async function loadSettingsFromCSV() {
                 const key = row[0].trim().toLowerCase();
                 const value = row[1] ? row[1].trim() : "";
 
-                if (key === 'sitzplaetze') {
+                if (key === 'portion') {
                     maxPortions = parseInt(value) || 25;
                 } else if (key === 'telefon') {
                     const telSpan = document.getElementById('footer-telefon');
