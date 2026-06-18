@@ -1,75 +1,122 @@
-# DÜRERs Café & Bistro
+# DÜRERs Café & Bistro – Website
 
-Willkommen im offiziellen Repository für die Website des DÜRERs Café & Bistro.
+**Live:** [duererscafehassfurt.github.io/cafe](https://duererscafehassfurt.github.io/cafe/)
 
-## Über das Projekt
-DÜRERs Café & Bistro ist ein einzigartiges Schulprojekt der Albrecht-Dürer-Schule in Haßfurt. Schülerinnen und Schüler betreiben das Café weitgehend in Eigenregie und bereiten jeden Donnerstag frische Zutaten aus der Region zu köstlichen Mittagsgerichten zu.
+Die Website des schülergeführten Cafés der Albrecht-Dürer-Mittelschule Haßfurt. Schülerinnen und Schüler kochen jeden Donnerstag frische, vegetarische Mittagsmenüs – Reservierungen werden direkt über diese Seite entgegengenommen.
 
-Diese Website dient als digitaler Auftritt des Cafés und ermöglicht es Besuchern, Informationen abzurufen, Catering anzufragen und Reservierungen vorzunehmen.
+---
 
-## Projektstruktur (Dateien)
-Diese Website basiert auf statischen HTML-Dateien. Die wichtigsten Seiten sind:
-* `index.html` - Die Startseite.
-* `menu-reservierung.html` - Speisekarte und Tischreservierungen.
-* `catering.html` - Informationen zu Catering-Angeboten.
-* `anfrage.html` - Allgemeine Anfragen.
-* `stornierung.html` - Seite für Stornierungen.
-* `impressum.html` & `datenschutz.html` - Rechtliche Seiten (Impressum und Datenschutzerklärung).
+## Seiten
 
-## 🚀 Deployment Anleitung (Wie man die Website aktualisiert)
+| Datei | Inhalt |
+|---|---|
+| `index.html` | Startseite – Hero-Bereich, Menü-Vorschau, Über-uns-Abschnitt |
+| `menu-reservierung.html` | Wochenmenü & Online-Reservierungsformular |
+| `catering.html` | Catering- und Veranstaltungsseite |
+| `anfrage.html` | Kontaktformular für Catering-/Event-Anfragen |
+| `bestaetigung.html` | Bestätigungs-Landingpage (wird per E-Mail-Link aufgerufen) |
+| `stornierung.html` | Stornierungsseite (wird per E-Mail-Link aufgerufen) |
+| `impressum.html` | Impressum |
+| `datenschutz.html` | Datenschutzerklärung |
 
-Diese Website wird automatisch über **GitHub Pages** gehostet und bereitgestellt (deployed). Du benötigst keinen externen Server oder FTP-Software, um die Seite zu aktualisieren. 
+### Gemeinsame Komponenten (`_includes/`)
+- `header.html` – Sticky-Navigation mit Logo, Navigationslinks und Social-Icons
+- `footer.html` – Kontaktdaten, Navigation, rechtliche Links und Schulhinweis
 
-**So nimmst du Änderungen an der Live-Website vor:**
-1. Öffne die Datei, die du ändern möchtest (z. B. `index.html`), hier auf GitHub.
-2. Klicke auf das Stift-Symbol ✏️ oben rechts über dem Code, um die Datei zu bearbeiten.
-3. Nimm deine Text- oder Code-Änderungen vor.
-4. Klicke oben rechts auf den grünen Button **"Commit changes..."** (Änderungen speichern).
-5. Gib eine kurze Beschreibung ein, was du geändert hast, und bestätige den Commit.
+---
 
-**Das war's!** Sobald du die Änderungen im `main`-Branch speicherst (commit), erstellt GitHub Pages die Seite automatisch neu. Deine Änderungen sind meist innerhalb von 1 bis 2 Minuten live im Internet sichtbar. Du kannst den Fortschritt im Bereich "Deployments" auf der rechten Seite der Repository-Startseite überprüfen.
-## 🛠 Anleitung zur Mitarbeit: Was ist auf GitHub zu tun?
+## So funktioniert es
 
-Diese Anleitung erklärt Schritt für Schritt, wie das Team Änderungen an der Website des DÜRERs Café vornimmt. 
+Die Website ist eine statische Jekyll-Seite, die auf **GitHub Pages** gehostet wird. Alle dynamischen Daten (Menü, Einstellungen, Reservierungen) werden über **Google Sheets** verwaltet – ohne Datenbank oder eigenen Server.
 
-### 📝 1. Einfache Textänderungen (z.B. Speisekarte anpassen)
-Wenn du einen Textfehler korrigieren oder das Menü für den nächsten Donnerstag aktualisieren möchtest:
+```
+Browser  →  Google Sheets (lesen, via GViz JSON API)
+         →  Google Apps Script (schreiben: Buchungen, Stornierungen, E-Mails)
+```
 
-1. Navigiere in diesem Repository zu der Datei, die du ändern möchtest (z.B. `menu-reservierung.html`).
-2. Klicke oben rechts in der Dateiansicht auf das **Stift-Symbol ✏️ (Edit file)**.
-3. Suche die Stelle im Code, die du ändern möchtest, und passe den Text an.
-4. Klicke oben rechts auf den grünen Button **"Commit changes..."**.
-5. Schreibe in das erste Feld eine kurze, logische Nachricht, was du getan hast (z.B. *"Speisekarte für den 25. Oktober eingetragen"*).
-6. Wähle die Option **"Commit directly to the `main` branch"**.
-7. Klicke auf **Commit changes**.
-*(Die Live-Website aktualisiert sich nun automatisch nach etwa 1-2 Minuten!)*
+### Struktur der Google Tabelle
 
-### 🖼 2. Neue Bilder oder Dateien hochladen
-Wenn du ein neues Foto des Cafés oder ein PDF hochladen möchtest:
+| Tabellenblatt | Inhalt |
+|---|---|
+| `Einstellungen` | Seitenweite Einstellungen: Telefon, E-Mail, Fax, Sitzplätze, Logo-URL, Social-Links |
+| `Reservations` | Alle Reservierungsdatensätze |
+| `EventRequests` | Eingegangene Catering-/Event-Anfragen |
+| `Bilder Catering` | Bild-URLs für die Galerie auf der Catering-Seite |
 
-1. Navigiere in den entsprechenden Ordner (z.B. `images` oder `assets`, falls vorhanden).
-2. Klicke oben rechts auf **"Add file"** und wähle **"Upload files"**.
-3. Ziehe deine Bilder in das Feld oder klicke auf "choose your files", um sie vom Computer auszuwählen.
-4. Gib unten eine Commit-Nachricht ein (z.B. *"Neues Teamfoto hochgeladen"*).
-5. Klicke auf **Commit changes**.
+Die Einstellungen werden beim Seitenaufruf geladen und dynamisch in Header, Footer und Kontaktbuttons eingefügt.
 
-### 🤝 3. Größere Änderungen & Teamwork (Pull Requests)
-Wenn du das Layout veränderst, neue Seiten baust oder dir unsicher bist, solltest du die Änderungen nicht direkt live schalten, sondern vom Team überprüfen lassen:
+### Ablauf einer Reservierung
 
-1. Klicke auf das Stift-Symbol ✏️ und nimm deine Änderungen vor.
-2. Klicke auf **"Commit changes..."**.
-3. Wähle diesmal die untere Option: **"Create a new branch for this commit and start a pull request"**.
-4. Gib dem Branch (deiner Kopie) einen Namen, z.B. `neues-design-catering`.
-5. Klicke auf **Propose changes**.
-6. Auf der nächsten Seite klickst du auf **Create pull request**.
-7. **Fertig!** Deine Änderungen sind jetzt gespeichert, aber noch nicht live. Ein Lehrer oder Administrator kann sich die Änderungen nun ansehen und auf **"Merge pull request"** klicken, um sie auf die echte Website zu übernehmen.
+```
+1. Gast wählt Datum, Zeitfenster und Menügerichte → Formular absenden
+2. Apps Script prüft verfügbare Portionen (max. 25 pro Tag)
+3. Reservierung wird als „Ausstehend" gespeichert
+4. Gast erhält E-Mail mit Bestätigungslink (15 Minuten gültig)
+5. Gast klickt Link → Status wird auf „Bestätigt" gesetzt
+6. Nicht bestätigte Reservierungen verfallen automatisch nach 15 Minuten
+7. Vergangene Reservierungen werden täglich per Trigger gelöscht
+```
 
-### 🆘 Hilfe, ich habe etwas kaputt gemacht!
-Keine Panik! GitHub merkt sich jede einzelne Änderung (Versionierung). Wenn du aus Versehen eine Datei löschst oder die Website kaputt geht:
-1. Gehe auf der Hauptseite des Repositories auf **"Commits"** (die Uhr mit dem Pfeil).
-2. Dort siehst du eine Historie aller Änderungen. Ein Administrator kann die fehlerhafte Änderung jederzeit mit wenigen Klicks rückgängig machen ("Revert").
+Eine kostenfreie Stornierung ist bis **2 Tage vor dem Reservierungsdatum um 11:00 Uhr** möglich. Der Stornierungslink ist in der Bestätigungs-E-Mail enthalten.
 
+---
 
+## Google Apps Script (`Code.gs`)
 
+Als Web App bereitgestellt – alle Schreibzugriffe laufen über `doPost()`:
 
+| Aktion | Beschreibung |
+|---|---|
+| `getMenu` | Gibt die Menü-CSV zurück (5-Minuten-Cache via CacheService) |
+| `check` | Gibt die bereits gebuchten Portionen für ein bestimmtes Datum zurück |
+| `book` | Legt eine neue Reservierung an und versendet die Bestätigungs-E-Mail |
+| `confirm` | Bestätigt eine ausstehende Reservierung und sendet die finale Bestätigung |
+| `cancel` | Löscht eine Reservierung (innerhalb der Frist) und sendet eine Stornierungsbestätigung |
+| `eventRequest` | Speichert eine Catering-Anfrage und benachrichtigt das Café-Team per E-Mail |
 
+`doGet()` ermöglicht die Stornierung direkt per URL – als Fallback für E-Mail-Clients ohne JavaScript.
+
+**Zeitgesteuerte Trigger** (in Apps Script einrichten):
+- `deleteExpiredReservations` – läuft alle paar Minuten, entfernt unbestätigte Buchungen und benachrichtigt die Gäste
+- `deletePastReservations` – läuft täglich und bereinigt vergangene Einträge
+
+---
+
+## Technologie
+
+- **Jekyll** (Static-Site-Generator, GitHub Pages)
+- **Vanilla HTML/CSS/JS** – keine Frameworks
+- **Google Fonts** – Playfair Display, DM Sans, DM Mono
+- **Google Sheets** (GViz JSON API) – schreibgeschützte Datenquelle
+- **Google Apps Script** – serverloser Backend für Buchungen und E-Mail-Versand
+- **GmailApp** – Transaktions-E-Mails (Bestätigung, Stornierung, Ablauf)
+
+---
+
+## Lokale Entwicklung
+
+```bash
+# Jekyll installieren (Ruby erforderlich)
+gem install bundler jekyll
+
+# Lokalen Server starten
+bundle exec jekyll serve
+
+# Im Browser öffnen: http://localhost:4000
+```
+
+Der Ordner `_includes/` wird von Jekylls `{% include %}`-Tag genutzt, um Header und Footer in jede Seite einzubinden.
+
+---
+
+## Hinweise zum Projekt
+
+- Alle Menüs sind **vegetarisch** und werden aus frischen, regionalen Zutaten zubereitet
+- Die Kapazität ist auf **25 Portionen pro Donnerstag** begrenzt
+- Bezahlung erfolgt **ausschließlich in bar** bei Abholung
+- Das Café ist ein Schulprojekt – Anfragen außerhalb der Öffnungszeiten bitte telefonisch oder per E-Mail
+- Catering ist für Gruppen bis zu **60 Personen** möglich; die Bistro-Kapazität wird über das Tabellenblatt `Einstellungen` verwaltet
+
+---
+
+*Mit ❤ gebaut von Schülerinnen und Schülern der Albrecht-Dürer-Mittelschule Haßfurt*
