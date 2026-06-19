@@ -49,8 +49,6 @@
     .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(155deg, rgba(26,18,8,0.0) 20%, rgba(26,18,8,0.5) 60%, rgba(26,18,8,0.95) 100%); }
     .hero-content { position: relative; z-index: 2; padding: 3rem 6% 3.5rem; max-width: 700px; text-align: left; }
 
-    /* Eyebrow-Badge: bewusst klein & kompakt gehalten, damit sie sich klar
-       von der großen Headline absetzt statt mit ihr zu konkurrieren. */
     .hero-eyebrow {
         display: inline-flex;
         align-items: center;
@@ -201,7 +199,7 @@
                 <p>Um stets höchste Qualität zu gewährleisten und nachhaltig zu wirtschaften, bieten wir jede Woche <strong>maximal 25 Portionen</strong> an.</p>
                 <div class="about-stats">
                     <div class="stat-box">
-                        <div class="stat-num" id="stat-tische">5</div>
+                        <div class="stat-num" id="stat-tische">-</div>
                         <div class="stat-label">Tische im Bistro</div>
                     </div>
                     <div class="stat-box">
@@ -262,7 +260,7 @@
             <div class="feature-card">
                 <span class="feature-icon">🥡</span>
                 <h4>Take-Away</h4>
-                <p>Ihre reservierten Speisen können Sie donnerstags ganz einfach bei uns abholen und umweltbewusst mitnehmen.</p>
+                <p>Ihre reservierten Speisen können Sie bequem am Tag der Reservierung ganz einfach bei uns abholen und umweltbewusst mitnehmen.</p>
             </div>
         </div>
     </div>
@@ -304,7 +302,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // --- Google Apps Script URL ---
     const appScriptUrl = 'https://script.google.com/macros/s/AKfycbzOq403kNYnhu0bsyS84B0H_-h_LopKyeJSXoXOs1WSqNCFjIpxVRa9zpV6gNKSUH8/exec';
     
-    // HIER IST DIE NEUE UND RICHTIGE ID:
     const sheetId = '1fP97sZGxXjA-vDOV2wpWtw16W74EhP_urhCaFIspjaQ'; 
     const settingsUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Einstellungen&headers=1`;
     const hoursUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=%C3%96ffnungszeiten&headers=1`;
@@ -367,7 +364,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (el && val) el.innerText = val;
             };
 
-            // Nur noch die Infos der Startseite setzen. Der Footer regelt sich nun selbst!
             setText('info-telefon', settings['telefon']);
             setText('info-email', settings['email']);
             setText('info-schule', settings['schule']);
