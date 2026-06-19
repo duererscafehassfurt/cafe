@@ -47,28 +47,32 @@
     
     .hero { position: relative; height: min(80vh, 640px); background: url('picture2.jpeg') center/cover no-repeat; display: flex; align-items: flex-end; overflow: hidden; background-color: var(--ink-80); transition: background-image 0.5s ease; }
     .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(155deg, rgba(26,18,8,0.0) 20%, rgba(26,18,8,0.5) 60%, rgba(26,18,8,0.95) 100%); }
-    .hero-content { position: relative; z-index: 2; padding: 3rem 6% 3.5rem; max-width: 700px; }
-    
-    /* Angepasste Klasse für dieselbe Schriftgröße wie die Sektions-Überschrift */
-    .hero-eyebrow { 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 8px; 
-        font-family: 'DM Mono', monospace; 
-        font-size: clamp(1.2rem, 2.5vw, 1.8rem); 
-        letter-spacing: 0.2em; 
-        text-transform: uppercase; 
-        color: white; 
-        background: rgba(196,154,42,0.12); 
-        border: 1px solid rgba(196,154,42,0.35); 
-        padding: 5px 14px; 
-        border-radius: 2px; 
-        margin-bottom: 1.1rem; 
+    .hero-content { position: relative; z-index: 2; padding: 3rem 6% 3.5rem; max-width: 700px; text-align: left; }
+
+    /* Eyebrow-Badge: bewusst klein & kompakt gehalten, damit sie sich klar
+       von der großen Headline absetzt statt mit ihr zu konkurrieren. */
+    .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: var(--gold-l);
+        border: 1px solid var(--gold);
+        padding: 6px 16px;
+        border-radius: 3px;
+        margin-bottom: 1.3rem;
+        box-shadow: 0 2px 10px rgba(196,154,42,0.3);
+        text-align: left;
     }
     
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 900; line-height: 1.12; color: var(--cream); margin-bottom: 0.8rem; transition: opacity 0.3s; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 900; line-height: 1.12; color: var(--cream); margin-bottom: 0.8rem; text-align: left; transition: opacity 0.3s; }
     .hero h1 em { color: var(--gold-l); font-style: italic; }
-    .hero-sub { font-size: 1rem; color: rgba(250,246,239,0.75); margin-bottom: 1.8rem; max-width: 480px; }
+    .hero-sub { font-size: 1rem; color: rgba(250,246,239,0.75); margin-bottom: 1.8rem; max-width: 480px; text-align: left; }
     
     .action-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 26px; border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; background: var(--rust); color: white; box-shadow: 0 4px 18px rgba(139,58,42,0.4); }
     .action-btn:hover { background: var(--rust-l); transform: translateY(-2px); }
@@ -183,7 +187,6 @@
     <div class="info-item"><div class="info-icon">🕐</div><span id="info-time">Lädt...</span></div>
     <div class="info-item"><div class="info-icon">📍</div><span id="info-schule">Lädt...</span></div>
     <div class="info-item"><div class="info-icon">📞</div><span id="info-telefon">Lädt...</span></div>
-    <div class="info-item"><div class="info-icon">📠</div><span id="info-fax">Lädt...</span></div>
     <div class="info-item"><div class="info-icon">✉️</div><span id="info-email">Lädt...</span></div>
 </div>
 
@@ -198,7 +201,7 @@
                 <p>Um stets höchste Qualität zu gewährleisten und nachhaltig zu wirtschaften, bieten wir jede Woche <strong>maximal 25 Portionen</strong> an.</p>
                 <div class="about-stats">
                     <div class="stat-box">
-                        <div class="stat-num">5</div>
+                        <div class="stat-num" id="stat-tische">5</div>
                         <div class="stat-label">Tische im Bistro</div>
                     </div>
                     <div class="stat-box">
@@ -366,10 +369,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // Nur noch die Infos der Startseite setzen. Der Footer regelt sich nun selbst!
             setText('info-telefon', settings['telefon']);
-            setText('info-fax', settings['fax']);
             setText('info-email', settings['email']);
             setText('info-schule', settings['schule']);
             setText('stat-sitzplaetze', settings['sitzplaetze']);
+            setText('stat-tische', settings['tische']);
+            setText('hero-subtitle-el', settings['hero_subtitle']);
 
             if (settings['maps_embed_url']) {
                 const mapEl = document.getElementById('map-iframe');
