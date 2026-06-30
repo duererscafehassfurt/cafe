@@ -119,4 +119,4 @@ Der Ordner `_includes/` wird von Jekylls `{% include %}`-Tag genutzt, um Header 
 
 ---
 
-*Mit ❤ gebaut von Schülerinnen und Schülern der Albrecht-Dürer-Mittelschule Haßfurt*
+*Mit ❤ zubereitet von Schülerinnen und Schülern der Albrecht-Dürer-Mittelschule Haßfurt*
